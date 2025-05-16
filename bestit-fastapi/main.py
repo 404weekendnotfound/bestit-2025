@@ -1,3 +1,4 @@
+import requests
 from fastapi import FastAPI, UploadFile, File, HTTPException
 import os
 import shutil
@@ -11,8 +12,8 @@ app = FastAPI()
 async def upload_cv(file: UploadFile = File(...)):
     # Sprawdzenie typu pliku
     allowed_content_types = [
-        "application/pdf"#,
-        #"image/jpeg", "image/png", "image/jpg"
+        "application/pdf"  # ,
+        # "image/jpeg", "image/png", "image/jpg"
     ]
 
     if file.content_type not in allowed_content_types:
@@ -32,10 +33,13 @@ async def upload_cv(file: UploadFile = File(...)):
         shutil.copyfileobj(file.file, buffer)
 
     try:
-        if file.content_type == "application/pdf":
-            markdown_content = pymupdf4llm.to_markdown(file_location)
-        else:
-            pass # Konwersja w przypadku zdjęć a nie pdf
+        markdown_content = pymupdf4llm.to_markdown(file_location)
+
+        req_post = requests.post("https://n8n.weekendnotfound.pl/webhook/cv-analyze/",
+                                 json={
+                                     "filename": unique_filename,
+                                     "content": markdown_content
+                                 })
 
         # Zapisz wygenerowany markdown do pliku
         markdown_file = f"media/cv_uploads/{unique_filename}.md"
@@ -57,5 +61,6 @@ async def upload_cv(file: UploadFile = File(...)):
         "content_type": file.content_type,
         "status": "CV has been uploaded and converted to markdown successfully",
         "markdown_file": markdown_file,
-        "markdown_preview": markdown_content[:200] + "..." if len(markdown_content) > 200 else markdown_content
+        "markdown_preview": markdown_content[:200] + "..." if len(markdown_content) > 200 else markdown_content,
+        "req_post": req_post
     }
