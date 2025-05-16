@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import CvUploader from '../CvUploader';
 import Step1 from './Step1';
+import ProgressBar from '../ProgressBar/ProgressBar';
 
 interface RegisterData {
     firstName: string;
@@ -36,12 +37,19 @@ const Register = () => {
         }
     };
 
+    const handleNext = () => {
+        if (currentStep < 3) {
+            setCurrentStep(currentStep + 1);
+        }
+    };
+
     return (
         <div style={{ 
             maxWidth: '800px', 
             margin: '0 auto', 
             padding: '20px'
         }}>
+            <ProgressBar currentStep={currentStep} totalSteps={3} />
             <h1 style={{ 
                 textAlign: 'center',
                 marginBottom: '30px',
@@ -66,23 +74,23 @@ const Register = () => {
             )}
             {currentStep === 2 && <CvUploader />}
 
+            <div style={{
+                display: 'flex',
+                gap: "12px",
+                alignItems: "center",
+            }}>
             {currentStep > 1 && (
                 <button
                     onClick={handlePrevious}
-                    style={{
-                        marginTop: '20px',
-                        padding: '10px 20px',
-                        backgroundColor: '#6c757d',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '4px',
-                        cursor: 'pointer',
-                        fontSize: '16px'
-                    }}
+                    className="btn"
+                    style={{flex: 1}}
                 >
                     Wstecz
                 </button>
             )}
+            <button className="btn btn-full" onClick={handleNext} style={{flex: 1}}
+            >Dalej</button>
+            </div>
         </div>
     );
 };
