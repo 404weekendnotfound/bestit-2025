@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import CvUploader from './components/CvUploader'
 import LinkedInForm from './components/LinkedInForm'
+import Login from './views/Login/Login'
 
 function Home() {
   return (
@@ -10,6 +11,7 @@ function Home() {
         <ul>
           <li><Link to="/linkedin">LinkedIn Form</Link></li>
           <li><Link to="/cv">CV Upload</Link></li>
+          <li><Link to="/login">Login</Link></li>
         </ul>
       </nav>
     </div>
@@ -23,6 +25,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/linkedin" element={<LinkedInForm />} />
         <Route path="/cv" element={<CvUploader />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </BrowserRouter>
   )
