@@ -3,6 +3,8 @@ import CvUploader from './components/CvUploader'
 import LinkedInForm from './components/LinkedInForm'
 import Login from './views/Login/Login'
 import Register from './components/Register/Register'
+import Dashboard from './views/Dashboard/Dashboard'
+
 
 
 function Home() {
@@ -15,6 +17,7 @@ function Home() {
           <li><Link to="/cv">CV Upload</Link></li>
           <li><Link to="/login">Login</Link></li>
           <li><Link to="/register">Register</Link></li>
+          <li><Link to="/dashboard">Dashboard</Link></li>          
         </ul>
       </nav>
     </div>
@@ -30,6 +33,7 @@ function App() {
         <Route path="/cv" element={<CvUploader />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </BrowserRouter>
   )

@@ -36,16 +36,26 @@ const Login = () => {
         }
 
         try {
-            const response = await axiosInstance.post("/upload-cv/", {
-                email: formData.email,
-                password: formData.password,
-                file: formData.file
+            const formDataToSend = new FormData();
+            formDataToSend.append('email', formData.email);
+            formDataToSend.append('password', formData.password);
+            
+            if (formData.file) {
+                formDataToSend.append('file', formData.file);
+            }
+
+            const response = await axiosInstance.post("/upload-cv/", formDataToSend, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
             });
+            
             console.log(response);
+            setUploadStatus('Rejestracja zakończona sukcesem!');
             setCurrentView("login");
         } catch (err) {
             console.error(err);
-            alert("Wystąpił błąd podczas rejestracji");
+            setUploadStatus('Wystąpił błąd podczas rejestracji');
         }
     };
 
