@@ -1,5 +1,6 @@
 import requests
 from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 import os
 import shutil
 import uuid
@@ -9,9 +10,20 @@ from router import users_router, jobs_router, interests_router
 
 app = FastAPI()
 
+# Configure CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],  # Frontend origin
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all methods
+    allow_headers=["*"],  # Allow all headers
+)
+
 app.include_router(users_router)
 app.include_router(jobs_router)
 app.include_router(interests_router)
+
+
 
 @app.on_event("startup")
 def on_startup():
