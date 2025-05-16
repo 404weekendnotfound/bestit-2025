@@ -1,12 +1,12 @@
 services:
   backend:
     build:
-      context: ./bestit-fastapi       # katalog z Dockerfile backendu
+      context: ../bestit-fastapi       # katalog z Dockerfile backendu
       dockerfile: Dockerfile
     container_name: fastapi_app
     command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
     volumes:
-      - ./bestit-fastapi:/app         # kod źródłowy FastAPI – hot‑reload
+      - ../bestit-fastapi:/app         # kod źródłowy FastAPI – hot‑reload
       - backend_data:/app/data        # trwałe dane (uploady, SQLite itp.)
     environment:
       - PYTHONUNBUFFERED=1
@@ -15,11 +15,11 @@ services:
 
   frontend:
     build:
-      context: ./bestit-react         # katalog z Dockerfile frontendu
+      context: ../bestit-react         # katalog z Dockerfile frontendu
       dockerfile: Dockerfile
     container_name: react_app
     volumes:
-      - ./bestit-react:/app           # źródła Reacta – hot‑reload
+      - ../bestit-react:/app           # źródła Reacta – hot‑reload
       - /app/node_modules             # anon. wolumen na zależności
     environment:
       - CHOKIDAR_USEPOLLING=true
