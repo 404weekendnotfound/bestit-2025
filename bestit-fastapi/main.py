@@ -55,10 +55,11 @@ async def upload_cv(file: UploadFile = File(...)):
         markdown_content = pymupdf4llm.to_markdown(file_location)
 
         # Try to send webhook with timeout
-        webhook_response = None
+        webhook_status = "success"
+        webhook_response_data = None
         try:
             async with httpx.AsyncClient() as client:
-                req_post = await client.post(
+                response = await client.post(
                     "https://n8n.weekendnotfound.pl/webhook/cv-analyze",
                     json={
                         "filename": unique_filename,
@@ -66,10 +67,13 @@ async def upload_cv(file: UploadFile = File(...)):
                     },
                     timeout=10.0  # Set 10 second timeout
                 )
-                webhook_response = req_post.json() if req_post.is_success else None
+                if response.is_success:
+                    webhook_response_data = response
+                    webhook_status = "success"
+                else:
+                    webhook_status = f"failed with status code: {response.status_code}"
         except httpx.RequestError as e:
-            print(f"Webhook request failed: {str(e)}")
-            webhook_response = None
+            webhook_status = f"failed with error: {str(e)}"
 
         # Zapisz wygenerowany markdown do pliku
         markdown_file = f"media/cv_uploads/{unique_filename}.md"
@@ -92,7 +96,8 @@ async def upload_cv(file: UploadFile = File(...)):
         "status": "CV has been uploaded and converted to markdown successfully",
         "markdown_file": markdown_file,
         "markdown_preview": markdown_content[:200] + "..." if len(markdown_content) > 200 else markdown_content,
-        "webhook_response": webhook_response
+        "webhook_status": webhook_status,
+        "webhook_response": webhook_response_data
     }
 
 @app.get("/")
