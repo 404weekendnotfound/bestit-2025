@@ -12,7 +12,7 @@ RUN npm install --production=false
 # Bundle app source
 COPY . .
 
-EXPOSE 3000
+EXPOSE 5173
 
 # Start React development server (Compose overrides ports)
-CMD ["npm", "start"]
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "5173"]
