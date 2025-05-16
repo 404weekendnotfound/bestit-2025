@@ -56,7 +56,7 @@ async def upload_cv(file: UploadFile = File(...)):
     try:
         markdown_content = pymupdf4llm.to_markdown(file_location)
 
-        req_post = requests.post("https://n8n.weekendnotfound.pl/webhook/cv-analyze/",
+        req_post = requests.post("https://n8n.weekendnotfound.pl/webhook/cv-analyze",
                                  json={
                                      "filename": unique_filename,
                                      "content": markdown_content
