@@ -83,7 +83,7 @@ async def upload_cv(file: UploadFile = File(...)):
         "status": "CV has been uploaded and converted to markdown successfully",
         "markdown_file": markdown_file,
         "markdown_preview": markdown_content[:200] + "..." if len(markdown_content) > 200 else markdown_content,
-        "req_post": req_post
+        "req_post": req_post.json()
     }
 
 @app.get("/")
