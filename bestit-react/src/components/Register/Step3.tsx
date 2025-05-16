@@ -1,9 +1,16 @@
 
+interface FormValues {
+    education: {
+        school: string;
+        degree: string;
+        start_date: string;
+        end_date: string;
+    }[];
+}
 interface StepProps {
     formData: FormValues;
     setFormData: (values: FormValues) => void;
 }
-
 const Step3 = ({formData, setFormData}: StepProps) => {
     return (
         <div>

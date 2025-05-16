@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import type { ChangeEvent } from 'react';
-import { useUserData } from '../../../context/UserDataContext';
+import { useUserData } from '../../context/UserDataContext';
 import './Profil.scss';
 
 interface Skill {
