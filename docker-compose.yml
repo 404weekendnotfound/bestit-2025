@@ -33,6 +33,13 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+
+  adminer:
+    image: adminer:latest
+    container_name: adminer_container
+    ports:
+      - 6580:8080
+
 volumes:
   backend_data:
   front_data:
