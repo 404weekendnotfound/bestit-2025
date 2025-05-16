@@ -25,7 +25,7 @@ services:
       - backend
 
   postgres:
-    image: postgres:16-alpine
+    image: postgres:16
     container_name: postgres_db
     environment:
       - POSTGRES_USER=appuser
@@ -33,8 +33,6 @@ services:
       - POSTGRES_DB=appdb
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
 
 volumes:
   backend_data:

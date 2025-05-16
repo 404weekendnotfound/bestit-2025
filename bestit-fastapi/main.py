@@ -73,3 +73,9 @@ async def upload_cv(file: UploadFile = File(...)):
         "markdown_preview": markdown_content[:200] + "..." if len(markdown_content) > 200 else markdown_content,
         "req_post": req_post
     }
+
+@app.get("/")
+async def test():
+    return {
+        "Test": "test"
+    }

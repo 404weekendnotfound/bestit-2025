@@ -1,7 +1,9 @@
-import { useState } from 'react'
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import CvUploader from './components/CvUploader'
 import LinkedInForm from './components/LinkedInForm'
+import Login from './views/Login/Login'
+import Register from './components/Register/Register'
+
 
 function Home() {
   return (
@@ -11,6 +13,8 @@ function Home() {
         <ul>
           <li><Link to="/linkedin">LinkedIn Form</Link></li>
           <li><Link to="/cv">CV Upload</Link></li>
+          <li><Link to="/login">Login</Link></li>
+          <li><Link to="/register">Register</Link></li>
         </ul>
       </nav>
     </div>
@@ -24,9 +28,15 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/linkedin" element={<LinkedInForm />} />
         <Route path="/cv" element={<CvUploader />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
     </BrowserRouter>
   )
 }
+
+
+
+
 
 export default App
