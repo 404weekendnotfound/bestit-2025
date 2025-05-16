@@ -33,20 +33,20 @@ const Register = () => {
     const {userData} = useUserData();
 
     const [currentStep, setCurrentStep] = useState(1);
-    const [formData, setFormData] = useState<FormValues>({
-        firstName: '',
-        lastName: '',
-        date: '',
-        phone: '',
-        email: '',
-        city: '',
-        education: '',
-        degree: '',
-        fieldOfStudy: '',
-        graduationYear: '',
-        languages: '',
-        certificates: '',
-        additionalInfo: ''
+    const [formData, setFormData] = useState<RegisterData>({
+        firstName: userData?.first_name || '',
+        lastName: userData?.last_name || '',
+        date: userData?.date || '',
+        phone: userData?.phone || '',
+        email: userData?.email || '',
+        city: userData?.city || '',
+        education: userData?.education || '',
+        degree: userData?.degree || '',
+        fieldOfStudy: userData?.fieldOfStudy || '',
+        graduationYear: userData?.graduationYear || '',
+        languages: userData?.languages || '',
+        certificates: userData?.certificates || '',
+        additionalInfo: userData?.additionalInfo || ''
     });
 
     const handleStepSubmit = (data: FormValues) => {
