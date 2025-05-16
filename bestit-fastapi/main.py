@@ -4,9 +4,18 @@ import os
 import shutil
 import uuid
 import pymupdf4llm
+from database import create_db_and_tables
+from router import users_router, jobs_router, interests_router
 
 app = FastAPI()
 
+app.include_router(users_router)
+app.include_router(jobs_router)
+app.include_router(interests_router)
+
+@app.on_event("startup")
+def on_startup():
+    create_db_and_tables()
 
 @app.post("/upload-cv/")
 async def upload_cv(file: UploadFile = File(...)):
