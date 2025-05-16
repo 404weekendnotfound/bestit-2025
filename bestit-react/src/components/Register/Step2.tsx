@@ -21,6 +21,7 @@ const Step2= ({ onNext, formData, setFormData }: StepProps) => {
             <h3>Praca</h3>
             {formData.work_experience.map((item, index) => (
                 <div key={index} className="form-field">
+                    <div className="form-field-label">{item.position}</div>
                     {item.position} - {item.company} ({item.start_date} - {item.end_date})
                 </div>
             ))}
