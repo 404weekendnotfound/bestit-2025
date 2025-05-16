@@ -1,4 +1,4 @@
-import httpx
+import requests
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import os
@@ -54,31 +54,60 @@ async def upload_cv(file: UploadFile = File(...)):
     try:
         markdown_content = pymupdf4llm.to_markdown(file_location)
 
-        # Try to send webhook with timeout
-        webhook_status = "success"
-        webhook_response_data = None
+        # Make the webhook request
+        req = requests.post("https://n8n.weekendnotfound.pl/webhook/cv-analyze", 
+                          json={"content": markdown_content},
+                          timeout=60)  # 60 seconds timeout
+        
+        # Ensure we got a successful response
+        req.raise_for_status()
+        
+        # Log the raw response for debugging
+        print(f"Raw webhook response: {req.text}")
+        print(f"Response content type: {req.headers.get('content-type', 'not specified')}")
+        
         try:
-            async with httpx.AsyncClient() as client:
-                response = await client.post(
-                    "https://n8n.weekendnotfound.pl/webhook/cv-analyze",
-                    json={
-                        "filename": unique_filename,
-                        "content": markdown_content
-                    },
-                    timeout=10.0  # Set 10 second timeout
-                )
-                if response.is_success:
-                    webhook_response_data = response
-                    webhook_status = "success"
-                else:
-                    webhook_status = f"failed with status code: {response.status_code}"
-        except httpx.RequestError as e:
-            webhook_status = f"failed with error: {str(e)}"
-
-        # Zapisz wygenerowany markdown do pliku
-        markdown_file = f"media/cv_uploads/{unique_filename}.md"
-        with open(markdown_file, "w", encoding="utf-8") as md_file:
-            md_file.write(markdown_content)
+            # Check if response is empty
+            if not req.text.strip():
+                return {
+                    "original_filename": file.filename,
+                    "saved_as": unique_filename,
+                    "content_type": file.content_type,
+                    "status": "CV uploaded but received empty response from webhook",
+                    "raw_response": req.text,
+                    "response_status": req.status_code
+                }
+            
+            webhook_response = req.json()  # Parse JSON response
+            
+            # Validate webhook response structure
+            if not isinstance(webhook_response, (list, dict)):
+                raise ValueError(f"Unexpected response type: {type(webhook_response)}")
+            
+            # Extract CV data based on response structure
+            cv_data = webhook_response[0] if isinstance(webhook_response, list) else webhook_response
+            
+        except ValueError as json_err:
+            # If JSON parsing fails, return detailed error information
+            return {
+                "original_filename": file.filename,
+                "saved_as": unique_filename,
+                "content_type": file.content_type,
+                "status": "CV uploaded but webhook response parsing failed",
+                "error": str(json_err),
+                "raw_response": req.text,
+                "response_content_type": req.headers.get('content-type', 'not specified'),
+                "response_status": req.status_code
+            }
+        except requests.RequestException as req_err:
+            return {
+                "original_filename": file.filename,
+                "saved_as": unique_filename,
+                "content_type": file.content_type,
+                "status": "CV uploaded but webhook request failed",
+                "error": str(req_err),
+                "response_status": getattr(req_err.response, 'status_code', None)
+            }
 
     except Exception as e:
         return {
@@ -94,10 +123,8 @@ async def upload_cv(file: UploadFile = File(...)):
         "saved_as": unique_filename,
         "content_type": file.content_type,
         "status": "CV has been uploaded and converted to markdown successfully",
-        "markdown_file": markdown_file,
         "markdown_preview": markdown_content[:200] + "..." if len(markdown_content) > 200 else markdown_content,
-        "webhook_status": webhook_status,
-        "webhook_response": webhook_response_data
+        "webhook_response": cv_data
     }
 
 @app.get("/")
