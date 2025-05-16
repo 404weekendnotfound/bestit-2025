@@ -10,8 +10,6 @@ services:
       - backend_data:/app/data        # trwałe dane (uploady, SQLite itp.)
     environment:
       - PYTHONUNBUFFERED=1
-    ports:
-      - "8000:8000"
     depends_on:
       - postgres
 
@@ -25,8 +23,6 @@ services:
       - /app/node_modules             # anon. wolumen na zależności
     environment:
       - CHOKIDAR_USEPOLLING=true
-    ports:
-      - "3000:3000"
     depends_on:
       - backend
 
