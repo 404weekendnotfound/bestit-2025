@@ -1,0 +1,47 @@
+services:
+  backend:
+    build:
+      context: ./bestit-fastapi       # katalog z Dockerfile backendu
+      dockerfile: Dockerfile
+    container_name: fastapi_app
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    volumes:
+      - ./bestit-fastapi:/app         # kod źródłowy FastAPI – hot‑reload
+      - backend_data:/app/data        # trwałe dane (uploady, SQLite itp.)
+    environment:
+      - PYTHONUNBUFFERED=1
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+
+  frontend:
+    build:
+      context: ./bestit-react         # katalog z Dockerfile frontendu
+      dockerfile: Dockerfile
+    container_name: react_app
+    volumes:
+      - ./bestit-react:/app           # źródła Reacta – hot‑reload
+      - /app/node_modules             # anon. wolumen na zależności
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: postgres_db
+    environment:
+      - POSTGRES_USER=appuser
+      - POSTGRES_PASSWORD=apppassword
+      - POSTGRES_DB=appdb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  backend_data:
+  postgres_data:
