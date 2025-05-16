@@ -40,7 +40,13 @@ const Login = () => {
                 email: formData.email,
                 password: formData.password,
                 file: formData.file
-            });
+            }, 
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            }
+        );
             console.log(response);
             setCurrentView("login");
         } catch (err) {
