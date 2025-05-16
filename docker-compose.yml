@@ -4,9 +4,7 @@ services:
       context: ./bestit-fastapi       # katalog z Dockerfile backendu
       dockerfile: Dockerfile
     container_name: fastapi_app
-    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
-    volumes:
-      - backend_data:/app/data        # trwałe dane (uploady, SQLite itp.)
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload      # trwałe dane (uploady, SQLite itp.)
     environment:
       - PYTHONUNBUFFERED=1
     depends_on:
