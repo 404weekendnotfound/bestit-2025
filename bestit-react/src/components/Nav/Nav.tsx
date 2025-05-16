@@ -1,14 +1,14 @@
 import { Link } from "react-router-dom"
-import logo from "../../assets/logo.png"
 
 
 
 const Nav = () => {
     return (
         <nav>
-            <div className="nav__logo">
-                <img src={logo} alt="logo" />
-            </div>
+            <Link to="/" className="nav__logo" style={{textAlign: "center"}}>
+                {/* <img src={logo} alt="logo" /> */}
+                <h2>404 Weekend not found</h2>
+            </Link>
         </nav>
     )
 }
