@@ -36,20 +36,17 @@ const Login = () => {
         }
 
         try {
-            const formDataToSend = new FormData();
-            formDataToSend.append('email', formData.email);
-            formDataToSend.append('password', formData.password);
-            
-            if (formData.file) {
-                formDataToSend.append('file', formData.file);
-            }
-
-            const response = await axiosInstance.post("/upload-cv/", formDataToSend, {
+            const response = await axiosInstance.post("/upload-cv/", {
+                email: formData.email,
+                password: formData.password,
+                file: formData.file
+            }, 
+            {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
-            });
-            
+            }
+        );
             console.log(response);
             setUploadStatus('Rejestracja zakończona sukcesem!');
             setCurrentView("login");

@@ -1,78 +1,82 @@
 import requests
-from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi import FastAPI, UploadFile, File, HTTPException, Response
+from fastapi.middleware.cors import CORSMiddleware
 import os
 import shutil
 import uuid
 import pymupdf4llm
 from database import create_db_and_tables
-from router import users_router, jobs_router, interests_router
+from router import users_router, jobs_router, education_router, certification_router, interests_router
+
 
 app = FastAPI()
 
+# Configure CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],  # Frontend origin
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all methods
+    allow_headers=["*"],  # Allow all headers
+)
+
 app.include_router(users_router)
 app.include_router(jobs_router)
+app.include_router(education_router)
+app.include_router(certification_router)
 app.include_router(interests_router)
 
 @app.on_event("startup")
 def on_startup():
     create_db_and_tables()
 
+ALLOWED_TYPES = {"application/pdf"}          # add images here if you re-enable them
+CV_DIR = "media/cv_uploads"
+os.makedirs(CV_DIR, exist_ok=True) 
+
 @app.post("/upload-cv/")
 async def upload_cv(file: UploadFile = File(...)):
-    # Sprawdzenie typu pliku
-    allowed_content_types = [
-        "application/pdf"  # ,
-        # "image/jpeg", "image/png", "image/jpg"
-    ]
+    if file.content_type not in ALLOWED_TYPES:
+        raise HTTPException(
+            status_code=400,
+            detail="Available file types: PDF"            # update if you widen support
+        )
 
-    if file.content_type not in allowed_content_types:
-        raise HTTPException(status_code=400, detail="Available file types: PDF, JPG, JPEG, PNG")
-
-    # Generowanie unikalnej nazwy pliku
-    file_extension = file.filename.split(".")[-1]
-    unique_filename = f"{uuid.uuid4()}.{file_extension}"
-
-    # Utworzenie folderu na pliki CV, jeśli nie istnieje
-    os.makedirs("media/cv_uploads", exist_ok=True)
-
-    # Zapisywanie pliku
-    file_location = f"media/cv_uploads/{unique_filename}"
-    with open(file_location, "wb") as buffer:
-        # noinspection PyTypeChecker
+    filename = f"{uuid.uuid4()}.{file.filename.split('.')[-1]}"
+    dst = os.path.join(CV_DIR, filename)
+    with open(dst, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
 
     try:
-        markdown_content = pymupdf4llm.to_markdown(file_location)
-
-        req_post = requests.post("https://n8n.weekendnotfound.pl/webhook/cv-analyze/",
-                                 json={
-                                     "filename": unique_filename,
-                                     "content": markdown_content
-                                 })
-
-        # Zapisz wygenerowany markdown do pliku
-        markdown_file = f"media/cv_uploads/{unique_filename}.md"
-        with open(markdown_file, "w", encoding="utf-8") as md_file:
-            md_file.write(markdown_content)
-
+        markdown = pymupdf4llm.to_markdown(dst)
     except Exception as e:
-        return {
-            "original_filename": file.filename,
-            "saved_as": unique_filename,
-            "content_type": file.content_type,
-            "status": "CV has been uploaded successfully, but conversion to markdown failed",
-            "error": str(e)
-        }
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to convert PDF to markdown: {e}"
+        )
 
-    return {
-        "original_filename": file.filename,
-        "saved_as": unique_filename,
-        "content_type": file.content_type,
-        "status": "CV has been uploaded and converted to markdown successfully",
-        "markdown_file": markdown_file,
-        "markdown_preview": markdown_content[:200] + "..." if len(markdown_content) > 200 else markdown_content,
-        "req_post": req_post
-    }
+    try:
+        r = requests.post(
+            "https://n8n.weekendnotfound.pl/webhook/cv-analyze",
+            json={"content": markdown},
+            timeout=60,
+        )
+        r.raise_for_status()
+    except requests.RequestException as e:
+        raise HTTPException(
+            status_code=502,
+            detail=f"Webhook call failed: {e}"
+        )
+
+    try:
+        data = r.json()                       # succeeds if Content-Type is JSON
+        return data                           # FastAPI returns it as JSON
+    except ValueError:
+        return Response(
+            content=r.text,
+            media_type=r.headers.get("content-type", "text/plain"),
+            status_code=r.status_code,
+        )
 
 @app.get("/")
 async def test():

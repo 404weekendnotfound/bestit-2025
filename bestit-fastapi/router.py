@@ -3,7 +3,8 @@ from typing import List
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import select, Session
 
-from schemas import UserCreate, UserRead, JobCreate, JobRead, InterestCreate, InterestRead
+from schemas import UserCreate, UserRead, JobCreate, JobRead, EducationCreate, EducationRead, CertificateCreate, \
+    CertificateRead, InterestCreate, InterestRead
 from models import User, Job, Education, Certificate, Interest
 from database import get_session
 
@@ -48,7 +49,6 @@ jobs_router = APIRouter(prefix="/jobs", tags=["jobs"])
 @jobs_router.post("/", response_model=JobRead)
 def create_job(job: JobCreate, session: Session = Depends(get_session)):
     """Endpoint do dodawania pracy"""
-    # Sprawdź czy użytkownik istnieje
     user = session.get(User, job.user_id)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
@@ -84,7 +84,6 @@ interests_router = APIRouter(prefix="/interests", tags=["interests"])
 @interests_router.post("/", response_model=InterestRead)
 def create_interest(interest: InterestCreate, session: Session = Depends(get_session)):
     """Endpoint do dodawania zainteresowania"""
-    # Sprawdź czy użytkownik istnieje
     user = session.get(User, interest.user_id)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
@@ -100,7 +99,7 @@ def create_interest(interest: InterestCreate, session: Session = Depends(get_ses
 
 
 @interests_router.get("/user/{user_id}", response_model=List[InterestRead])
-def read_user_zainteresowania(user_id: int, session: Session = Depends(get_session)):
+def read_user_interests(user_id: int, session: Session = Depends(get_session)):
     """Endpoint do pobierania zainteresowań użytkownika"""
     user = session.get(User, user_id)
     if not user:
@@ -109,3 +108,66 @@ def read_user_zainteresowania(user_id: int, session: Session = Depends(get_sessi
     statement = select(Interest).where(Interest.user_id == user_id)
     interests = session.exec(statement).all()
     return interests
+
+
+education_router = APIRouter(prefix="/education", tags=["education"])
+
+
+@education_router.post("/", response_model=EducationRead)
+def create_education(education: EducationCreate, session: Session = Depends(get_session)):
+    user = session.get(User, education.user_id)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    db_education = Education(
+        degree=education.degree,
+        field=education.field,
+        institution=education.institution,
+        graduation_date=education.graduation_date,
+        user_id=education.user_id
+    )
+    session.add(db_education)
+    session.commit()
+    session.refresh(db_education)
+    return db_education
+
+
+@education_router.get("/user/{user_id}", response_model=List[EducationRead])
+def read_user_education(user_id: int, session: Session = Depends(get_session)):
+    user = session.get(User, user_id)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    statement = select(Education).where(Education.user_id == user_id)
+    education = session.exec(statement).all()
+    return education
+
+
+certification_router = APIRouter(prefix="/certification", tags=["certification"])
+
+
+@certification_router.post("/", response_model=CertificateRead)
+def create_certificate(certificate: CertificateCreate, session: Session = Depends(get_session)):
+    user = session.get(User, certificate.user_id)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    db_certificate = Certificate(
+        name=certificate.name,
+        issuer=certificate.issuer,
+        issue_date=certificate.issue_date,
+        user_id=certificate.user_id
+    )
+    session.add(db_certificate)
+    session.commit()
+    session.refresh(db_certificate)
+    return db_certificate
+
+
+@certification_router.get("/user/{user_id}", response_model=List[CertificateRead])
+def read_user_certificate(user_id: int, session: Session = Depends(get_session)):
+    user = session.get(User, user_id)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    statement = select(Certificate).where(Certificate.user_id == user_id)
+    certificate = session.exec(statement).all()
+    return certificate
