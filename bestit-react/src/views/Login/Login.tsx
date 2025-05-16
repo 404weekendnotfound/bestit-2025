@@ -3,8 +3,9 @@ import { Formik, Form } from 'formik';
 import type { FormikHelpers } from 'formik';
 import axios from 'axios';
 import "./Login.scss";
+import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../api/axios";
-
+import { useUserData } from "../../context/UserDataContext";
 interface FormValues {
     file: File | null;
     notes: (string | null)[];
@@ -26,6 +27,9 @@ const Login = () => {
         file: null,
     });
     const [uploadStatus, setUploadStatus] = useState<string>('');
+    const {setUserData} = useUserData();
+
+    const navigate = useNavigate();
 
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -47,7 +51,10 @@ const Login = () => {
                 },
             }
         );
-            console.log(response);
+            console.log(response.data);
+            setUserData(response.data);
+            localStorage.setItem("userData", JSON.stringify(response.data));
+            navigate("/register");
             setUploadStatus('Rejestracja zakończona sukcesem!');
             setCurrentView("login");
         } catch (err) {

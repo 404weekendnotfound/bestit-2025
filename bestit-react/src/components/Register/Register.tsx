@@ -3,7 +3,8 @@ import CvUploader from '../CvUploader';
 import Step1 from './Step1';
 import ProgressBar from '../ProgressBar/ProgressBar';
 import Step2 from './Step2';
-
+import { useUserData } from '../../context/UserDataContext';
+import Step3 from './Step3';
 interface RegisterData {
     firstName: string;
     lastName: string;
@@ -11,17 +12,38 @@ interface RegisterData {
     phone: string;
     email: string;
     city: string;
+    work_experience: Array<{
+        position: string;
+        company: string;
+        start_date: string;
+        end_date: string;
+    }>;
+    education: string;
+    skills: string;
+    additional_info: string;
+    cv: string;
+    photo: string;
+    
 }
 
 const Register = () => {
+    const {userData} = useUserData();
+
     const [currentStep, setCurrentStep] = useState(1);
     const [formData, setFormData] = useState<RegisterData>({
-        firstName: '',
-        lastName: '',
-        date: '',
-        phone: '',
-        email: '',
-        city: '',
+        firstName: userData.first_name,
+        lastName: userData.last_name,
+        date: userData.date_of_birth,
+        phone: userData.phone,
+        email: userData.email,
+        city: userData.city,
+        work_experience: userData.work_experience,
+        education: userData.education,
+        skills: userData.skills,
+        additional_info: userData.additional_info,
+        cv: userData.cv,
+        photo: userData.photo,
+        
 
     });
 
@@ -73,7 +95,7 @@ const Register = () => {
                 textAlign: 'center',
                 color: '#666'
             }}>
-                Krok {currentStep} z 3
+                Krok {currentStep} z 4
             </div>
 
             {currentStep === 1 && (
@@ -87,6 +109,10 @@ const Register = () => {
                 formData={formData}
                 setFormData={setFormData}
                 onNext={handleStepSubmit}
+            />)}
+            {currentStep === 3 && (<Step3
+                formData={formData}
+                setFormData={setFormData}
             />)}
 
             <div style={{
