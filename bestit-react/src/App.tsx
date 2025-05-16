@@ -4,7 +4,7 @@ import LinkedInForm from './components/LinkedInForm'
 import Login from './views/Login/Login'
 import Register from './components/Register/Register'
 import Dashboard from './views/Dashboard/Dashboard'
-
+import Profil from './views/Profil/Profil'
 
 
 function Home() {
@@ -34,6 +34,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/profil" element={<Profil />} />
       </Routes>
     </BrowserRouter>
   )
