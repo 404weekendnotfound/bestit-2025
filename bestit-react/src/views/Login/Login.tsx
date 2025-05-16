@@ -27,13 +27,14 @@ const Login = () => {
         file: null,
     });
     const [uploadStatus, setUploadStatus] = useState<string>('');
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const {setUserData} = useUserData();
 
     const navigate = useNavigate();
 
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
-        
+        setIsLoading(true);
         if (formData.password !== formData.repeatPassword) {
             alert("Hasła nie pasują do siebie");
             return;
@@ -56,9 +57,11 @@ const Login = () => {
             localStorage.setItem("userData", JSON.stringify(response.data));
             navigate("/register");
             setUploadStatus('Rejestracja zakończona sukcesem!');
+            setIsLoading(false);
             setCurrentView("login");
         } catch (err) {
             console.error(err);
+            setIsLoading(false);
             setUploadStatus('Wystąpił błąd podczas rejestracji');
         }
     };
@@ -176,8 +179,8 @@ const Login = () => {
                         </div>
                     )}
 
-                    <button type="submit" className="btn btn-full">
-                        {currentView === "login" ? "Zaloguj się" : "Zarejestruj się"}
+                    <button type="submit" className="btn btn-full" disabled={isLoading}>
+                        {isLoading ? "Ładowanie..." : currentView === "login" ? "Zaloguj się" : "Zarejestruj się"}
                     </button>
                 </form>
 

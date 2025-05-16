@@ -31,18 +31,18 @@ const Register = () => {
 
     const [currentStep, setCurrentStep] = useState(1);
     const [formData, setFormData] = useState<RegisterData>({
-        firstName: userData.first_name,
-        lastName: userData.last_name,
-        date: userData.date_of_birth,
-        phone: userData.phone,
-        email: userData.email,
-        city: userData.city,
-        work_experience: userData.work_experience,
-        education: userData.education,
-        skills: userData.skills,
-        additional_info: userData.additional_info,
-        cv: userData.cv,
-        photo: userData.photo,
+        firstName: userData?.first_name || '',
+        lastName: userData?.last_name || '',
+        date: userData?.date_of_birth || '',
+        phone: userData?.phone || '',
+        email: userData?.email || '',
+        city: userData?.city || '',
+        work_experience: userData?.work_experience || [],
+        education: userData?.education || '',
+        skills: userData?.skills || '',
+        additional_info: userData?.additional_info || '',
+        cv: userData?.cv || '',
+        photo: userData?.photo || '',
         
 
     });
