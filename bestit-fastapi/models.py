@@ -45,7 +45,7 @@ class Certificate(SQLModel, table=True):
     id: int = Field(default=None, primary_key=True)
     name: str = Field(index=True)
     issuer: str = Field(index=True)
-    date: date = Field(index=True)
+    issue_date: date = Field(index=True)
     user_id: Optional[int] = Field(default=None, foreign_key="user.id")
 
     user: Optional[User] = Relationship(back_populates="certificates")
