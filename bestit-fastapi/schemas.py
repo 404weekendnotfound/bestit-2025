@@ -1,5 +1,5 @@
 from datetime import date
-from typing import Optional
+from typing import Optional, List
 from sqlmodel import SQLModel
 
 
@@ -26,12 +26,6 @@ class UserRead(SQLModel):
     age: Optional[int] = None
 
 
-class UserWithDetails(UserRead):
-    """Model do zwracania użytkownika z powiązanymi danymi"""
-    # Zaimportujemy odpowiednie schematy, gdy będą zdefiniowane
-    pass
-
-
 class JobCreate(SQLModel):
     """Model do tworzenia nowej pracy"""
     position: str
@@ -50,6 +44,7 @@ class JobRead(SQLModel):
     end_date: Optional[date] = None
     user_id: int
 
+
 class EducationCreate(SQLModel):
     """Model do tworzenia nowej ucznienia"""
     degree: str
@@ -57,6 +52,7 @@ class EducationCreate(SQLModel):
     institution: str
     graduation_date: date
     user_id: int
+
 
 class EducationRead(SQLModel):
     """Model do zwracania danych ucznienia"""
@@ -67,12 +63,14 @@ class EducationRead(SQLModel):
     graduation_date: date
     user_id: int
 
+
 class CertificateCreate(SQLModel):
     """Model do tworzenia certyfikatu"""
     name: str
     issuer: str
     date: date
     user_id: int
+
 
 class CertificateRead(SQLModel):
     """Model do zwracania danych certyfikatu"""
@@ -81,6 +79,7 @@ class CertificateRead(SQLModel):
     issuer: str
     date: date
     user_id: int
+
 
 class InterestCreate(SQLModel):
     """Model do tworzenia zainteresowania"""
@@ -93,3 +92,11 @@ class InterestRead(SQLModel):
     id: int
     interest: str
     user_id: int
+
+
+class UserWithDetails(UserRead):
+    """Model do zwracania użytkownika z powiązanymi danymi"""
+    job_experience: List[JobRead] = []
+    education: List[EducationRead] = []
+    certificates: List[CertificateRead] = []
+    interests: List[InterestRead] = []

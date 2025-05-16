@@ -100,7 +100,7 @@ def create_interest(interest: InterestCreate, session: Session = Depends(get_ses
 
 
 @interests_router.get("/user/{user_id}", response_model=List[InterestRead])
-def read_user_zainteresowania(user_id: int, session: Session = Depends(get_session)):
+def read_user_interests(user_id: int, session: Session = Depends(get_session)):
     """Endpoint do pobierania zainteresowań użytkownika"""
     user = session.get(User, user_id)
     if not user:
