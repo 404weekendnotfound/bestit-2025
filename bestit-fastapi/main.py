@@ -36,20 +36,17 @@ os.makedirs(CV_DIR, exist_ok=True)
 
 @app.post("/upload-cv/")
 async def upload_cv(file: UploadFile = File(...)):
-    # ---- 1. quick file-type gate ------------------------------------------------
     if file.content_type not in ALLOWED_TYPES:
         raise HTTPException(
             status_code=400,
             detail="Available file types: PDF"            # update if you widen support
         )
 
-    # ---- 2. save the file -------------------------------------------------------
     filename = f"{uuid.uuid4()}.{file.filename.split('.')[-1]}"
     dst = os.path.join(CV_DIR, filename)
     with open(dst, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
 
-    # ---- 3. turn PDF → markdown -------------------------------------------------
     try:
         markdown = pymupdf4llm.to_markdown(dst)
     except Exception as e:
@@ -58,7 +55,6 @@ async def upload_cv(file: UploadFile = File(...)):
             detail=f"Failed to convert PDF to markdown: {e}"
         )
 
-    # ---- 4. call n8n and relay its answer --------------------------------------
     try:
         r = requests.post(
             "https://n8n.weekendnotfound.pl/webhook/cv-analyze",
@@ -72,7 +68,6 @@ async def upload_cv(file: UploadFile = File(...)):
             detail=f"Webhook call failed: {e}"
         )
 
-    # Prefer JSON if available, fall back to raw text
     try:
         data = r.json()                       # succeeds if Content-Type is JSON
         return data                           # FastAPI returns it as JSON
