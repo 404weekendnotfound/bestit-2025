@@ -1,4 +1,4 @@
-import requests
+import httpx
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import os
@@ -22,8 +22,6 @@ app.add_middleware(
 app.include_router(users_router)
 app.include_router(jobs_router)
 app.include_router(interests_router)
-
-
 
 @app.on_event("startup")
 def on_startup():
@@ -56,11 +54,22 @@ async def upload_cv(file: UploadFile = File(...)):
     try:
         markdown_content = pymupdf4llm.to_markdown(file_location)
 
-        req_post = requests.post("https://n8n.weekendnotfound.pl/webhook/cv-analyze",
-                                 json={
-                                     "filename": unique_filename,
-                                     "content": markdown_content
-                                 })
+        # Try to send webhook with timeout
+        webhook_response = None
+        try:
+            async with httpx.AsyncClient() as client:
+                req_post = await client.post(
+                    "https://n8n.weekendnotfound.pl/webhook/cv-analyze",
+                    json={
+                        "filename": unique_filename,
+                        "content": markdown_content
+                    },
+                    timeout=10.0  # Set 10 second timeout
+                )
+                webhook_response = req_post.json() if req_post.is_success else None
+        except httpx.RequestError as e:
+            print(f"Webhook request failed: {str(e)}")
+            webhook_response = None
 
         # Zapisz wygenerowany markdown do pliku
         markdown_file = f"media/cv_uploads/{unique_filename}.md"
@@ -83,7 +92,7 @@ async def upload_cv(file: UploadFile = File(...)):
         "status": "CV has been uploaded and converted to markdown successfully",
         "markdown_file": markdown_file,
         "markdown_preview": markdown_content[:200] + "..." if len(markdown_content) > 200 else markdown_content,
-        "req_post": req_post.json()
+        "webhook_response": webhook_response
     }
 
 @app.get("/")
