@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import type { ChangeEvent } from 'react';
 import { useUserData } from '../../context/UserDataContext';
 import './Profil.scss';
+import Layout from '../../components/Layout/Layout';
 
 interface Skill {
     id: string;
@@ -129,6 +130,7 @@ const Profil: React.FC = () => {
     };
 
     return (
+        <Layout>
         <div className="profile-container">
             <div className="profile-header">
                 <div className="avatar-section" onClick={handleAvatarClick}>
@@ -339,6 +341,7 @@ const Profil: React.FC = () => {
                 </section>
             </div>
         </div>
+        </Layout>
     );
 };
 
