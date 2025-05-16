@@ -1,5 +1,5 @@
 from datetime import date
-from typing import Optional
+from typing import Optional, List
 from sqlmodel import Field, SQLModel, Relationship
 
 
@@ -13,10 +13,10 @@ class User(SQLModel, table=True):
     linkedin: str | None = Field(default=None, index=True)
     age: int | None = Field(default=None, index=True)
 
-    job_experience: list["Job"] = Relationship(back_populates="user")
-    interests: list["Interest"] = Relationship(back_populates="user")
-    education: list["Education"] = Relationship(back_populates="user")
-    certificates: list["Certificate"] = Relationship(back_populates="user")
+    job_experience: List["Job"] = Relationship(back_populates="user")
+    interests: List["Interest"] = Relationship(back_populates="user")
+    education: List["Education"] = Relationship(back_populates="user")
+    certificates: List["Certificate"] = Relationship(back_populates="user")
 
 
 class Job(SQLModel, table=True):

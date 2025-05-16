@@ -68,7 +68,7 @@ class CertificateCreate(SQLModel):
     """Scheme to create user's certification"""
     name: str
     issuer: str
-    date: date
+    issue_date: date
     user_id: int
 
 
@@ -77,7 +77,7 @@ class CertificateRead(SQLModel):
     id: int
     name: str
     issuer: str
-    date: date
+    issue_date: date
     user_id: int
 
 
