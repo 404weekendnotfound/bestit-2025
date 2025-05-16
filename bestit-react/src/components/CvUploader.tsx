@@ -171,10 +171,10 @@ const CvUploader = () => {
                                 {uploadStatus}
                             </div>
                         )}
-                    </Form>
-                )}
-            </Formik>
-        </div>
+                                    </Form>
+                                )}
+                            </Formik>
+                        </div>
     );
 };
 
