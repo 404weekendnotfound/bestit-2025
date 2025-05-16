@@ -2,4 +2,5 @@ fastapi
 uvicorn
 python-multipart
 pymupdf4llm
-sqlmodel
+sqlmodel==0.0.24
+requests==2.32.3
