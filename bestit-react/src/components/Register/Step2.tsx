@@ -18,23 +18,16 @@ const Step2= ({ onNext, formData, setFormData }: StepProps) => {
     ];
     return (
         <div className="form-container">
-            {fields.map((item, index) => (
+            <h3>Praca</h3>
+            {formData.work_experience.map((item, index) => (
                 <div key={index} className="form-field">
-                    <label 
-                        htmlFor={item.name} 
-                        className="form-label"
-                    >
-                        {item.label}
-                    </label>
-                    <input
-                        id={item.name}
-                        name={item.name}
-                        type={item.type}
-                        onChange={(e) => setFormData({ ...formData, [item.name]: e.target.value })}
-                        value={formData[item.name as keyof FormValues]}
-                        placeholder={item.placeholder}
-                        className="form-input"
-                    />
+                    {item.position} - {item.company} ({item.start_date} - {item.end_date})
+                </div>
+            ))}
+            <h3>Edukacja</h3>
+            {formData.education.map((item, index) => (
+                <div key={index} className="form-field">
+                    {item.school} - {item.degree} ({item.start_date} - {item.end_date})
                 </div>
             ))}
         </div>

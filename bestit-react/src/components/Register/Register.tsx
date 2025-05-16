@@ -3,6 +3,10 @@ import CvUploader from '../CvUploader';
 import Step1 from './Step1';
 import ProgressBar from '../ProgressBar/ProgressBar';
 import Step2 from './Step2';
+import { useUserData } from '../../context/UserDataContext';
+import Step3 from './Step3';
+import Step4 from './Step4';
+import type { FormValues } from './types';
 
 interface RegisterData {
     firstName: string;
@@ -11,26 +15,45 @@ interface RegisterData {
     phone: string;
     email: string;
     city: string;
+    work_experience: Array<{
+        position: string;
+        company: string;
+        start_date: string;
+        end_date: string;
+    }>;
+    education: string;
+    skills: string;
+    additional_info: string;
+    cv: string;
+    photo: string;
+    
 }
 
 const Register = () => {
+    const {userData} = useUserData();
+
     const [currentStep, setCurrentStep] = useState(1);
     const [formData, setFormData] = useState<RegisterData>({
-        firstName: '',
-        lastName: '',
-        date: '',
-        phone: '',
-        email: '',
-        city: '',
-
+        firstName: userData?.first_name || '',
+        lastName: userData?.last_name || '',
+        date: userData?.date || '',
+        phone: userData?.phone || '',
+        email: userData?.email || '',
+        city: userData?.city || '',
+        education: userData?.education || '',
+        work_experience: userData?.work_experience || '',
+        skills: userData?.skills || '',
+        additional_info: userData?.additional_info || '',
+        cv: userData?.cv || '',
+        photo: userData?.photo || '',
     });
 
-    const handleStepSubmit = (data: RegisterData) => {
+    const handleStepSubmit = (data: FormValues) => {
         setFormData(prev => ({
             ...prev,
             ...data
         }));
-        setCurrentStep(2);
+        setCurrentStep(prev => prev + 1);
     };
 
     const handlePrevious = () => {
@@ -48,8 +71,45 @@ const Register = () => {
                 return;
             }
         }
-        if (currentStep < 3) {
+        if (currentStep < 4) {
             setCurrentStep(currentStep + 1);
+        } else {
+            // Tutaj możemy dodać logikę wysyłania formularza
+            console.log('Formularz gotowy do wysłania:', formData);
+            // Możemy dodać wywołanie API do zapisania danych
+        }
+    };
+
+    const renderStep = () => {
+        switch (currentStep) {
+            case 1:
+                return (
+                    <Step1 
+                        formData={formData}
+                        setFormData={setFormData}
+                        onNext={handleStepSubmit}
+                    />
+                );
+            case 2:
+                return (
+                    <Step2
+                        formData={formData}
+                        setFormData={setFormData}
+                        onNext={handleStepSubmit}
+                    />
+                );
+            case 3:
+                return <CvUploader />;
+            case 4:
+                return (
+                    <Step4
+                        formData={formData}
+                        setFormData={setFormData}
+                        onNext={handleStepSubmit}
+                    />
+                );
+            default:
+                return null;
         }
     };
 
@@ -59,7 +119,7 @@ const Register = () => {
             margin: '0 auto', 
             padding: '20px'
         }}>
-            <ProgressBar currentStep={currentStep} totalSteps={3} />
+            <ProgressBar currentStep={currentStep} totalSteps={4} />
             <h1 style={{ 
                 textAlign: 'center',
                 marginBottom: '30px',
@@ -73,38 +133,33 @@ const Register = () => {
                 textAlign: 'center',
                 color: '#666'
             }}>
-                Krok {currentStep} z 3
+                Krok {currentStep} z 4
             </div>
 
-            {currentStep === 1 && (
-                <Step1 
-                    formData={formData}
-                    setFormData={setFormData}
-                    onNext={handleStepSubmit}
-                />
-            )}
-            {currentStep === 2 && (<Step2
-                formData={formData}
-                setFormData={setFormData}
-                onNext={handleStepSubmit}
-            />)}
+            {renderStep()}
 
             <div style={{
                 display: 'flex',
                 gap: "12px",
                 alignItems: "center",
+                marginTop: '20px'
             }}>
-            {currentStep > 1 && (
-                <button
-                    onClick={handlePrevious}
-                    className="btn"
+                {currentStep > 1 && (
+                    <button
+                        onClick={handlePrevious}
+                        className="btn"
+                        style={{flex: 1}}
+                    >
+                        Wstecz
+                    </button>
+                )}
+                <button 
+                    className="btn btn-full" 
+                    onClick={handleNext} 
                     style={{flex: 1}}
                 >
-                    Wstecz
+                    {currentStep === 4 ? 'Zakończ' : 'Dalej'}
                 </button>
-            )}
-            <button className="btn btn-full" onClick={handleNext} style={{flex: 1}}
-            >Dalej</button>
             </div>
         </div>
     );

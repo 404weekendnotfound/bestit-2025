@@ -28,6 +28,7 @@ body {
   margin: 0;
   display: flex;
   flex-direction: column;
+  place-items: center;
   min-width: 320px;
   min-height: 100vh;
   color: #121212;
@@ -256,7 +257,6 @@ body {
     transition: $transition;
     margin-top: 1rem;
 
-
     &:disabled {
       opacity: 0.7;
       cursor: not-allowed;
@@ -306,8 +306,144 @@ body {
     border-radius: 8px;
     font-size: 1rem;
     cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
+    transition: $transition;
+    margin-top: 1.5rem;
+
+    &:hover {
+      background-color: darken($secondary-color, 5%);
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+}
+
+// Animations
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .form-container {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+
+  .register {
+    &-container {
+      padding: 1rem;
+    }
+
+    &-title {
+      font-size: 1.5rem;
+    }
+  }
+}
+
+// CV Section Styles
+.cv-section {
+  text-align: center;
+  animation: fadeIn 0.3s ease;
+
+  .cv-title {
+    color: $text-color;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .cv-description {
+    color: $secondary-color;
+    margin-bottom: 2rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+}
+
+// Secondary Button Style
+.form-button {
+  &.secondary {
+    background-color: $secondary-color;
+    margin-top: 1.5rem;
+
+    &:hover:not(:disabled) {
+      background-color: darken($secondary-color, 5%);
+    }
+  }
+}
+
+// Additional Animations
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// Form Error States
+.form-input {
+  &.error {
+    border-color: $error-color;
+    
+    &:focus {
+      box-shadow: 0 0 0 2px rgba($error-color, 0.2);
+    }
+  }
+}
+
+.form-error {
+  &.global {
+    background-color: rgba($error-color, 0.1);
+    color: $error-color;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    animation: shake 0.5s ease-in-out;
+  }
+}
+
+// Form Info Section
+.form-info {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: rgba($primary-color, 0.1);
+  border-radius: 8px;
+  text-align: center;
+
+  p {
+    margin: 0.5rem 0;
+    color: $text-color;
+    font-size: 0.9rem;
+
+    &:first-child {
+      font-weight: 500;
+      color: $primary-color;
+    }
+  }
+}
+
+// Shake Animation for Errors
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-10px);
+  }
+  75% {
+    transform: translateX(10px);
   }
 }
 
