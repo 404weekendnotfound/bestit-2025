@@ -2,6 +2,7 @@ import { useState } from 'react';
 import CvUploader from '../CvUploader';
 import Step1 from './Step1';
 import ProgressBar from '../ProgressBar/ProgressBar';
+import Step2 from './Step2';
 
 interface RegisterData {
     firstName: string;
@@ -20,10 +21,11 @@ const Register = () => {
         date: '',
         phone: '',
         email: '',
-        city: ''
+        city: '',
+
     });
 
-    const handleStep1Submit = (data: RegisterData) => {
+    const handleStepSubmit = (data: RegisterData) => {
         setFormData(prev => ({
             ...prev,
             ...data
@@ -38,6 +40,14 @@ const Register = () => {
     };
 
     const handleNext = () => {
+        if(currentStep === 1){
+            let requiredFields = ["firstName", "lastName", "date", "phone", "email", "city"];
+            let missingFields = requiredFields.filter(field => !formData[field as keyof RegisterData]);
+            if(missingFields.length > 0){
+                alert(`Proszę wypełnić wszystkie wymagane pola: ${missingFields.join(", ")}`);
+                return;
+            }
+        }
         if (currentStep < 3) {
             setCurrentStep(currentStep + 1);
         }
@@ -68,11 +78,16 @@ const Register = () => {
 
             {currentStep === 1 && (
                 <Step1 
-                    initialValues={formData}
-                    onNext={handleStep1Submit}
+                    formData={formData}
+                    setFormData={setFormData}
+                    onNext={handleStepSubmit}
                 />
             )}
-            {currentStep === 2 && <CvUploader />}
+            {currentStep === 2 && <Step2
+                formData={formData}
+                setFormData={setFormData}
+                onNext={handleStepSubmit}
+            />}
 
             <div style={{
                 display: 'flex',

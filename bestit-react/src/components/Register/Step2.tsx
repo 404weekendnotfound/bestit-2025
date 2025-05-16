@@ -1,13 +1,8 @@
-import { Formik, Form } from 'formik';
-import type { FormikHelpers } from 'formik';
 
 interface FormValues {
-    firstName: string;
-    lastName: string;
-    date: string;
-    phone: string;
-    email: string;
-    city: string;
+    jobs: {
+        name: string
+    }
 }
 
 interface Step1Props {
@@ -16,14 +11,10 @@ interface Step1Props {
     setFormData: (values: FormValues) => void;
 }
 
-const Step1 = ({ onNext, formData, setFormData }: Step1Props) => {
+
+const Step2= ({ onNext, formData, setFormData }: StepProps) => {
     const fields = [
         {name: "firstName", label: "Imię", type: "text", placeholder: "Wprowadź swoje imię"},
-        {name: "lastName", label: "Nazwisko", type: "text", placeholder: "Wprowadź swoje nazwisko"},
-        {name: "date", label: "Data urodzenia", type: "date", placeholder: "Wprowadź datę urodzenia"},
-        {name: "phone", label: "Telefon", type: "tel", placeholder: "Wprowadź numer telefonu (9 cyfr)"},
-        {name: "email", label: "Email", type: "email", placeholder: "Wprowadź swoją email"},
-        {name: "city", label: "Miasto", type: "text", placeholder: "Wprowadź swoje miasto"}
     ];
     return (
         <div className="form-container">
@@ -48,6 +39,6 @@ const Step1 = ({ onNext, formData, setFormData }: Step1Props) => {
             ))}
         </div>
     );
-};
+}
 
-export default Step1; 
+export default Step2;
