@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import CvUploader from './components/CvUploader'
 import LinkedInForm from './components/LinkedInForm'
 import Register from './components/Register/Register'
