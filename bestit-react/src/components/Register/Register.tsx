@@ -41,12 +41,11 @@ const Register = () => {
         email: userData?.email || '',
         city: userData?.city || '',
         education: userData?.education || '',
-        degree: userData?.degree || '',
-        fieldOfStudy: userData?.fieldOfStudy || '',
-        graduationYear: userData?.graduationYear || '',
-        languages: userData?.languages || '',
-        certificates: userData?.certificates || '',
-        additionalInfo: userData?.additionalInfo || ''
+        work_experience: userData?.work_experience || '',
+        skills: userData?.skills || '',
+        additional_info: userData?.additional_info || '',
+        cv: userData?.cv || '',
+        photo: userData?.photo || '',
     });
 
     const handleStepSubmit = (data: FormValues) => {
@@ -66,7 +65,7 @@ const Register = () => {
     const handleNext = () => {
         if(currentStep === 1){
             let requiredFields = ["firstName", "lastName", "date", "phone", "email", "city"];
-            let missingFields = requiredFields.filter(field => !formData[field as keyof FormValues]);
+            let missingFields = requiredFields.filter(field => !formData[field as keyof RegisterData]);
             if(missingFields.length > 0){
                 alert(`Proszę wypełnić wszystkie wymagane pola: ${missingFields.join(", ")}`);
                 return;
