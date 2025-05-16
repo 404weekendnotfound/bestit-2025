@@ -11,6 +11,8 @@ services:
       - PYTHONUNBUFFERED=1
     depends_on:
       - postgres
+    ports:
+      - 7562:8000
 
   frontend:
     build:
