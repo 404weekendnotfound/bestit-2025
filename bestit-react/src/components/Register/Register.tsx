@@ -83,11 +83,11 @@ const Register = () => {
                     onNext={handleStepSubmit}
                 />
             )}
-            {currentStep === 2 && <Step2
+            {currentStep === 2 && (<Step2
                 formData={formData}
                 setFormData={setFormData}
                 onNext={handleStepSubmit}
-            />}
+            />)}
 
             <div style={{
                 display: 'flex',

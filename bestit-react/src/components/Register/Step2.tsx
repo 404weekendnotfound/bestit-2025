@@ -5,8 +5,8 @@ interface FormValues {
     }
 }
 
-interface Step1Props {
-    onNext?: (values: FormValues) => void;
+interface StepProps {
+    onNext?: () => void;
     formData: FormValues;
     setFormData: (values: FormValues) => void;
 }

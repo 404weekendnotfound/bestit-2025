@@ -14,10 +14,10 @@ class User(SQLModel, table=True):
     linkedin: str | None = Field(default=None, index=True)
     age: int | None = Field(default=None, index=True)
 
-    job_experience: List["Job"] = Relationship(back_populates="user")
-    interests: List["Interest"] = Relationship(back_populates="user")
-    education: List["Education"] = Relationship(back_populates="user")
-    certificates: List["Certificate"] = Relationship(back_populates="user")
+    job_experience: Optional[List["Job"]] = Relationship(back_populates="user", sa_relationship_kwargs={"lazy": "selectin"})
+    interests: Optional[List["Interest"]] = Relationship(back_populates="user", sa_relationship_kwargs={"lazy": "selectin"})
+    education: Optional[List["Education"]] = Relationship(back_populates="user", sa_relationship_kwargs={"lazy": "selectin"})
+    certificates: Optional[List["Certificate"]] = Relationship(back_populates="user", sa_relationship_kwargs={"lazy": "selectin"})
 
 
 class Job(SQLModel, table=True):
