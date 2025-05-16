@@ -214,10 +214,6 @@ body {
       @include input-focus;
     }
 
-    &:hover {
-      border-color: darken($border-color, 10%);
-    }
-
     &[type="date"] {
       appearance: none;
       padding-right: 2rem;
@@ -230,9 +226,7 @@ body {
       }
     }
 
-    &::placeholder {
-      color: lighten($text-color, 40%);
-    }
+
   }
 
   &-error {
@@ -311,7 +305,6 @@ body {
     margin-top: 1.5rem;
 
     &:hover {
-      background-color: darken($secondary-color, 5%);
       transform: translateY(-1px);
     }
 
@@ -375,10 +368,6 @@ body {
   &.secondary {
     background-color: $secondary-color;
     margin-top: 1.5rem;
-
-    &:hover:not(:disabled) {
-      background-color: darken($secondary-color, 5%);
-    }
   }
 }
 
