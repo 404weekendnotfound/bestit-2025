@@ -1,16 +1,31 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import CvUploader from './components/CvUploader'
 import LinkedInForm from './components/LinkedInForm'
-function App() {
-  const [count, setCount] = useState(0)
 
+function Home() {
   return (
-    <>
-      <LinkedInForm />
-    </>
+    <div>
+      <h1>Welcome to BestIT</h1>
+      <nav>
+        <ul>
+          <li><Link to="/linkedin">LinkedIn Form</Link></li>
+          <li><Link to="/cv">CV Upload</Link></li>
+        </ul>
+      </nav>
+    </div>
+  )
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/linkedin" element={<LinkedInForm />} />
+        <Route path="/cv" element={<CvUploader />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
