@@ -6,11 +6,17 @@ interface FormValues {
         start_date: string;
         end_date: string;
     }[];
+    certificates: {
+        name: string;
+        date: string;
+    }[];
 }
+
 interface StepProps {
     formData: FormValues;
     setFormData: (values: FormValues) => void;
 }
+
 const Step3 = ({formData, setFormData}: StepProps) => {
     return (
         <div>
