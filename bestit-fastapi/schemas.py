@@ -4,7 +4,7 @@ from sqlmodel import SQLModel
 
 
 class UserCreate(SQLModel):
-    """Model do tworzenia nowego użytkownika"""
+    """Scheme to create user"""
     first_name: str
     last_name: str
     address: Optional[str] = None
@@ -15,7 +15,7 @@ class UserCreate(SQLModel):
 
 
 class UserRead(SQLModel):
-    """Model do zwracania danych użytkownika"""
+    """Scheme to read user"""
     id: int
     first_name: str
     last_name: str
@@ -27,7 +27,7 @@ class UserRead(SQLModel):
 
 
 class JobCreate(SQLModel):
-    """Model do tworzenia nowej pracy"""
+    """Scheme to create job experience"""
     position: str
     company: str
     start_date: date
@@ -36,7 +36,7 @@ class JobCreate(SQLModel):
 
 
 class JobRead(SQLModel):
-    """Model do zwracania danych pracy"""
+    """Scheme to read job experience"""
     id: int
     position: str
     company: str
@@ -46,7 +46,7 @@ class JobRead(SQLModel):
 
 
 class EducationCreate(SQLModel):
-    """Model do tworzenia nowej ucznienia"""
+    """Scheme to create user's education"""
     degree: str
     field: str
     institution: str
@@ -55,7 +55,7 @@ class EducationCreate(SQLModel):
 
 
 class EducationRead(SQLModel):
-    """Model do zwracania danych ucznienia"""
+    """Scheme to read user's education"""
     id: int
     degree: str
     field: str
@@ -65,7 +65,7 @@ class EducationRead(SQLModel):
 
 
 class CertificateCreate(SQLModel):
-    """Model do tworzenia certyfikatu"""
+    """Scheme to create user's certification"""
     name: str
     issuer: str
     date: date
@@ -73,7 +73,7 @@ class CertificateCreate(SQLModel):
 
 
 class CertificateRead(SQLModel):
-    """Model do zwracania danych certyfikatu"""
+    """Scheme to read user's certification"""
     id: int
     name: str
     issuer: str
@@ -82,20 +82,20 @@ class CertificateRead(SQLModel):
 
 
 class InterestCreate(SQLModel):
-    """Model do tworzenia zainteresowania"""
+    """Scheme to create user's interests"""
     interest: str
     user_id: int
 
 
 class InterestRead(SQLModel):
-    """Model do zwracania danych zainteresowania"""
+    """Scheme to read user's interests"""
     id: int
     interest: str
     user_id: int
 
 
 class UserWithDetails(UserRead):
-    """Model do zwracania użytkownika z powiązanymi danymi"""
+    """Scheme to read user with details"""
     job_experience: List[JobRead] = []
     education: List[EducationRead] = []
     certificates: List[CertificateRead] = []
