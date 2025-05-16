@@ -1,7 +1,7 @@
 from sqlmodel import create_engine, Session, SQLModel
 
 # Konfiguracja bazy danych
-DATABASE_URL = "postgresql://appuser:apppassword@localhost:5432/appdb"
+DATABASE_URL = "postgresql://appuser:apppassword@db:5432/appdb"
 engine = create_engine(DATABASE_URL)
 
 
