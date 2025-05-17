@@ -30,8 +30,8 @@ class JobCreate(SQLModel):
     """Scheme to create job experience"""
     position: str
     company: str
-    start_date: date
-    end_date: Optional[date] = None
+    start_date: str
+    end_date: Optional[str] = None
     user_id: int
 
 
@@ -40,8 +40,8 @@ class JobRead(SQLModel):
     id: int
     position: str
     company: str
-    start_date: date
-    end_date: Optional[date] = None
+    start_date: str
+    end_date: Optional[str] = None
     user_id: int
 
 
@@ -50,7 +50,7 @@ class EducationCreate(SQLModel):
     degree: str
     field: str
     institution: str
-    graduation_date: date
+    graduation_date: str
     user_id: int
 
 
@@ -60,7 +60,7 @@ class EducationRead(SQLModel):
     degree: str
     field: str
     institution: str
-    graduation_date: date
+    graduation_date: str
     user_id: int
 
 
@@ -68,7 +68,7 @@ class CertificateCreate(SQLModel):
     """Scheme to create user's certification"""
     name: str
     issuer: str
-    issue_date: date
+    issue_date: str
     user_id: int
 
 
@@ -77,7 +77,7 @@ class CertificateRead(SQLModel):
     id: int
     name: str
     issuer: str
-    issue_date: date
+    issue_date: str
     user_id: int
 
 

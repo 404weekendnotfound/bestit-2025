@@ -97,68 +97,32 @@ async def upload_cv(file: UploadFile = File(...), session: Session = Depends(get
 
             # Dodawanie doświadczenia zawodowego
             for job_data in data.get("work_experience", []):
-                # Przetwarzanie daty początkowej
-                start_date = None
-                if "start_date" in job_data and job_data["start_date"]:
-                    try:
-                        start_date = datetime.strptime(job_data["start_date"], "%Y-%m").date()
-                    except ValueError:
-                        pass
-
-                # Przetwarzanie daty końcowej
-                end_date = None
-                if "end_date" in job_data and job_data["end_date"] and job_data["end_date"] != "obecnie":
-                    try:
-                        end_date = datetime.strptime(job_data["end_date"], "%Y-%m").date()
-                    except ValueError:
-                        pass
-
                 job = Job(
                     position=job_data.get("position", ""),
                     company=job_data.get("company", ""),
-                    start_date=start_date or date.today(),  # Domyślnie dzisiejsza data, jeśli nie udało się sparsować
-                    end_date=end_date,
+                    start_date=job_data.get("start_date", ""),
+                    end_date=job_data.get("end_date", ""),
                     user_id=user.id
                 )
                 session.add(job)
 
             # Dodawanie wykształcenia
             for edu_data in data.get("education", []):
-                # Przetwarzanie daty ukończenia
-                graduation_date = None
-                if "graduation_date" in edu_data and edu_data["graduation_date"]:
-                    try:
-                        graduation_date = datetime.strptime(edu_data["graduation_date"], "%Y").date()
-                    except ValueError:
-                        graduation_date = date(int(edu_data["graduation_date"]), 1, 1)
-                    except:
-                        graduation_date = date.today()
-
                 education = Education(
                     degree=edu_data.get("degree", ""),
                     field=edu_data.get("field", ""),
                     institution=edu_data.get("institution", ""),
-                    graduation_date=graduation_date or date.today(),
+                    graduation_date=edu_data.get("graduation_date", ""),
                     user_id=user.id
                 )
                 session.add(education)
 
             # Dodawanie certyfikatów
             for cert_data in data.get("certifications", []):
-                # Przetwarzanie daty wydania certyfikatu
-                issue_date = None
-                if "date" in cert_data and cert_data["date"]:
-                    try:
-                        issue_date = datetime.strptime(cert_data["date"], "%Y").date()
-                    except ValueError:
-                        issue_date = date(int(cert_data["date"]), 1, 1)
-                    except:
-                        issue_date = date.today()
-
                 certificate = Certificate(
                     name=cert_data.get("name", ""),
                     issuer=cert_data.get("issuer", ""),
-                    issue_date=issue_date or date.today(),
+                    issue_date=cert_data.get("date", ""),
                     user_id=user.id
                 )
                 session.add(certificate)
