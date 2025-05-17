@@ -19,34 +19,10 @@ interface Experience {
     description: string;
 }
 
-interface UserProfile {
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone: string;
-    city: string;
-    bio: string;
-    avatar: string;
-    skills: Skill[];
-    experience: Experience[];
-}
-
-const defaultProfile: UserProfile = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    city: '',
-    bio: '',
-    avatar: '',
-    skills: [],
-    experience: []
-};
 
 const Profil: React.FC = () => {
     const { userData, setUserData } = useUserData();
     const [isEditing, setIsEditing] = useState(false);
-    const [profile, setProfile] = useState<UserProfile>(userData?.profile || defaultProfile);
     const [newSkill, setNewSkill] = useState({ name: '', level: 1 });
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -59,10 +35,7 @@ const Profil: React.FC = () => {
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
-                setProfile(prev => ({
-                    ...prev,
-                    avatar: reader.result as string
-                }));
+                setUserData({...userData, avatar: reader.result as string})
             };
             reader.readAsDataURL(file);
         }
@@ -70,27 +43,18 @@ const Profil: React.FC = () => {
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
-        setProfile(prev => ({
-            ...prev,
-            [name]: value
-        }));
+        setUserData({...userData, [name]: value})
     };
 
     const addSkill = () => {
         if (newSkill.name.trim()) {
-            setProfile(prev => ({
-                ...prev,
-                skills: [...prev.skills, { ...newSkill, id: Date.now().toString() }]
-            }));
+            setUserData({...userData, skills: [...userData.skills, { ...newSkill, id: Date.now().toString() }]})
             setNewSkill({ name: '', level: 1 });
         }
     };
 
     const removeSkill = (skillId: string) => {
-        setProfile(prev => ({
-            ...prev,
-            skills: prev.skills.filter(skill => skill.id !== skillId)
-        }));
+        setUserData({...userData, skills: userData.skills.filter((skill: Skill) => skill.id !== skillId)})
     };
 
     const addExperience = () => {
@@ -102,30 +66,21 @@ const Profil: React.FC = () => {
             endDate: '',
             description: ''
         };
-        setProfile(prev => ({
-            ...prev,
-            experience: [...prev.experience, newExperience]
-        }));
+        setUserData({...userData, experience: [...userData.experience, newExperience]})
     };
 
     const updateExperience = (id: string, field: keyof Experience, value: string) => {
-        setProfile(prev => ({
-            ...prev,
-            experience: prev.experience.map(exp =>
-                exp.id === id ? { ...exp, [field]: value } : exp
-            )
-        }));
+        setUserData({...userData, experience: userData.experience.map((exp: Experience) =>
+            exp.id === id ? { ...exp, [field]: value } : exp
+        )})
     };
 
     const removeExperience = (experienceId: string) => {
-        setProfile(prev => ({
-            ...prev,
-            experience: prev.experience.filter(exp => exp.id !== experienceId)
-        }));
+        setUserData({...userData, experience: userData.experience.filter((exp: Experience) => exp.id !== experienceId)})
     };
 
     const handleSave = () => {
-        setUserData({ ...userData, profile });
+        setUserData({ ...userData });
         setIsEditing(false);
     };
 
@@ -134,8 +89,8 @@ const Profil: React.FC = () => {
         <div className="profile-container box">
             <div className="profile-header">
                 <div className="avatar-section" onClick={handleAvatarClick}>
-                    {profile.avatar ? (
-                        <img src={profile.avatar} alt="Profile" className="avatar" />
+                    {userData?.avatar ? (
+                        <img src={userData.avatar} alt="Profile" className="avatar" />
                     ) : (
                         <div className="avatar-placeholder">
                             <i className="fas fa-user"></i>
@@ -177,7 +132,7 @@ const Profil: React.FC = () => {
                             <input
                                 type="text"
                                 name="firstName"
-                                value={profile.firstName}
+                                value={userData?.first_name || ''}
                                 onChange={handleInputChange}
                                 disabled={!isEditing}
                             />
@@ -187,7 +142,7 @@ const Profil: React.FC = () => {
                             <input
                                 type="text"
                                 name="lastName"
-                                value={profile.lastName}
+                                value={userData?.last_name || ''}
                                 onChange={handleInputChange}
                                 disabled={!isEditing}
                             />
@@ -197,7 +152,7 @@ const Profil: React.FC = () => {
                             <input
                                 type="email"
                                 name="email"
-                                value={profile.email}
+                                value={userData?.email || ''}
                                 onChange={handleInputChange}
                                 disabled={!isEditing}
                             />
@@ -207,7 +162,7 @@ const Profil: React.FC = () => {
                             <input
                                 type="tel"
                                 name="phone"
-                                value={profile.phone}
+                                value={userData?.phone || ''}
                                 onChange={handleInputChange}
                                 disabled={!isEditing}
                             />
@@ -217,7 +172,7 @@ const Profil: React.FC = () => {
                             <input
                                 type="text"
                                 name="city"
-                                value={profile.city}
+                                value={userData?.city || ''}
                                 onChange={handleInputChange}
                                 disabled={!isEditing}
                             />
@@ -229,7 +184,7 @@ const Profil: React.FC = () => {
                     <h2>O mnie</h2>
                     <textarea
                         name="bio"
-                        value={profile.bio}
+                        value={userData?.bio}
                         onChange={handleInputChange}
                         disabled={!isEditing}
                         rows={4}
@@ -237,53 +192,8 @@ const Profil: React.FC = () => {
                 </section>
 
                 <section className="profile-section">
-                    <h2>Umiejętności</h2>
-                    <div className="skills-container">
-                        {profile.skills.map(skill => (
-                            <div key={skill.id} className="skill-tag">
-                                <span>{skill.name}</span>
-                                <div className="skill-level">
-                                    {Array.from({ length: skill.level }).map((_, i) => (
-                                        <i key={i} className="fas fa-star"></i>
-                                    ))}
-                                </div>
-                                {isEditing && (
-                                    <button
-                                        className="remove-skill"
-                                        onClick={() => removeSkill(skill.id)}
-                                    >
-                                        <i className="fas fa-times"></i>
-                                    </button>
-                                )}
-                            </div>
-                        ))}
-                        {isEditing && (
-                            <div className="add-skill">
-                                <input
-                                    type="text"
-                                    value={newSkill.name}
-                                    onChange={e => setNewSkill(prev => ({ ...prev, name: e.target.value }))}
-                                    placeholder="Nowa umiejętność"
-                                />
-                                <select
-                                    value={newSkill.level}
-                                    onChange={e => setNewSkill(prev => ({ ...prev, level: Number(e.target.value) }))}
-                                >
-                                    {[1, 2, 3, 4, 5].map(level => (
-                                        <option key={level} value={level}>
-                                            Poziom {level}
-                                        </option>
-                                    ))}
-                                </select>
-                                <button onClick={addSkill}>Dodaj</button>
-                            </div>
-                        )}
-                    </div>
-                </section>
-
-                <section className="profile-section">
                     <h2>Doświadczenie</h2>
-                    {profile.experience.map(exp => (
+                    {userData?.work_experience.map((exp: Experience) => (
                         <div key={exp.id} className="experience-item">
                             <div className="experience-header">
                                 <input
@@ -324,13 +234,6 @@ const Profil: React.FC = () => {
                                     disabled={!isEditing}
                                 />
                             </div>
-                            <textarea
-                                value={exp.description}
-                                onChange={e => updateExperience(exp.id, 'description', e.target.value)}
-                                placeholder="Opis stanowiska"
-                                disabled={!isEditing}
-                                rows={3}
-                            />
                         </div>
                     ))}
                     {isEditing && (

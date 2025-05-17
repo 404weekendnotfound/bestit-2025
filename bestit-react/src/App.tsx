@@ -6,7 +6,7 @@ import Register from './components/Register/Register'
 import Dashboard from './views/Dashboard/Dashboard'
 import Profil from './views/Profil/Profil'
 import ChatView from './views/Chat/ChatView'
-
+import Experts from './views/Experts/Expers'
 function Home() {
   return (
     <div>
@@ -17,7 +17,8 @@ function Home() {
           <li><Link to="/cv">CV Upload</Link></li>
           <li><Link to="/login">Login</Link></li>
           <li><Link to="/register">Register</Link></li>
-          <li><Link to="/dashboard">Dashboard</Link></li>          
+          <li><Link to="/dashboard">Dashboard</Link></li>
+          <li><Link to="/experts">Experts</Link></li>
         </ul>
       </nav>
     </div>
@@ -36,6 +37,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profil" element={<Profil />} />
         <Route path="/chat" element={<ChatView />} />
+        <Route path="/experts" element={<Experts />} />
       </Routes>
     </BrowserRouter>
   )

@@ -11,7 +11,6 @@ const Sidebar = () => {
 
 
     const navigation = useLocation();
-    console.log(navigation);
     
     return (
         <nav className={`sidebar ${isMenuOpen ? 'open' : ''}`}>
@@ -46,6 +45,12 @@ const Sidebar = () => {
                 <Link to="/messages">
                     <i className="fas fa-envelope"></i>
                     <span>Wiadomości</span>
+                </Link>
+            </li>
+            <li className={navigation.pathname === "/experts" ? "active" : ""}>
+                <Link to="/experts">
+                    <i className="fas fa-user-tie"></i>
+                    <span>Eksperci</span>
                 </Link>
             </li>
         </ul>
