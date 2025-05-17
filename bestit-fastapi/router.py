@@ -1,8 +1,6 @@
 from typing import List
-
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import select, Session
-
 from schemas import UserCreate, UserRead, JobCreate, JobRead, EducationCreate, EducationRead, CertificateCreate, \
     CertificateRead, InterestCreate, InterestRead, UserWithDetails
 from models import User, Job, Education, Certificate, Interest
@@ -41,6 +39,20 @@ def read_user(user_id: int, session: Session = Depends(get_session)):
 
     return user
 
+@users_router.get("/email/{email}", response_model=UserWithDetails)
+def read_user_by_email(email: str, session: Session = Depends(get_session)):
+    """Endpoint do pobierania danych użytkownika po adresie email"""
+    statement = select(User).where(User.email == email)
+    user = session.exec(statement).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    user.job_experience = read_user_jobs(user.id, session)
+    user.education = read_user_education(user.id, session)
+    user.certificates = read_user_certificate(user.id, session)
+    user.interests = read_user_interests(user.id, session)
+
+    return user
 
 @users_router.get("/", response_model=List[UserRead])
 def read_users(session: Session = Depends(get_session)):

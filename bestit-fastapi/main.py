@@ -9,7 +9,6 @@ from sqlmodel import Session
 from database import create_db_and_tables, get_session
 from router import users_router, jobs_router, education_router, certification_router, interests_router
 from models import User, Job, Education, Certificate, Interest
-from datetime import datetime, date
 
 app = FastAPI()
 
