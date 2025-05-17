@@ -24,6 +24,7 @@ export interface FormValues {
     }[];
     certifications: {
         name: string;
+        issuer: string;
         date: string;
     }[];
     interests: string[];

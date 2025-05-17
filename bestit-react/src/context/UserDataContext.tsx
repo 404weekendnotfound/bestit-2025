@@ -1,13 +1,15 @@
 import { createContext, useContext, useState, useEffect } from "react";
-
+import { useNavigate } from "react-router-dom";
 type UserDataContextType = {
     userData: any;
     setUserData: (data: any) => void;
+    logout: () => void;
 };
 
 const UserDataContext = createContext<UserDataContextType>({
     userData: null,
-    setUserData: () => {}
+    setUserData: () => {},
+    logout: () => {}
 });
 
 export const useUserData = () => {
@@ -26,8 +28,15 @@ export const UserDataProvider = ({ children }: { children: React.ReactNode }) =>
         }
     }, []);
 
+
+    const logout = () => {
+        localStorage.removeItem("userData");
+        setUserData(null);
+        window.location.href = "/login";
+    }
+
     return (
-        <UserDataContext.Provider value={{ userData, setUserData }}>
+        <UserDataContext.Provider value={{ userData, setUserData, logout }}>
             {children}
         </UserDataContext.Provider>
     );
