@@ -4,7 +4,7 @@ import { useUserData } from '../../context/UserDataContext';
 
 const Sidebar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const { userData } = useUserData();
+    const { userData, logout } = useUserData();
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
@@ -65,10 +65,10 @@ const Sidebar = () => {
                     <span className="user-role">Użytkownik</span>
                 </div>
             </Link>
-            <Link to="/login" className="logout-button">
+            <div onClick={() => logout()} className="logout-button">
                 <i className="fas fa-sign-out-alt"></i>
                 <span>Wyloguj</span>
-            </Link>
+            </div>
         </div>
     </nav>
     );

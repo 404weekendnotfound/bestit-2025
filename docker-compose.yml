@@ -42,13 +42,9 @@ services:
     container_name: adminer_container
     ports:
       - 6580:8080
-
-  debian:
-    image: debian:12-slim
-    container_name: debian_container
-    command: ["sleep", "infinity"]    # utrzymuje kontener w stanie aktywnym
     networks:
       - bestit-network
+
 
 volumes:
   backend_data:

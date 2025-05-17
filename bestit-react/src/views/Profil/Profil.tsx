@@ -193,7 +193,7 @@ const Profil: React.FC = () => {
 
                 <section className="profile-section">
                     <h2>Doświadczenie</h2>
-                    {userData?.work_experience.map((exp: Experience) => (
+                    {userData?.work_experience?.map((exp: Experience) => (
                         <div key={exp.id} className="experience-item">
                             <div className="experience-header">
                                 <input

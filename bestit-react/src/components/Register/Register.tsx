@@ -1,14 +1,17 @@
 import { useState } from 'react';
-import CvUploader from '../CvUploader';
+import { useNavigate } from 'react-router-dom';
 import Step1 from './Step1';
 import ProgressBar from '../ProgressBar/ProgressBar';
 import Step2 from './Step2';
 import { useUserData } from '../../context/UserDataContext';
 import Step3 from './Step3';
 import type { FormValues } from './types';
+import axiosInstance from '../../api/axios';
+import Nav from '../Nav/Nav';
 
 const Register = () => {
-    const {userData} = useUserData();
+    const {userData, setUserData} = useUserData();
+    const navigate = useNavigate();
 
     const [currentStep, setCurrentStep] = useState(1);
     const [formData, setFormData] = useState<FormValues>({
@@ -46,7 +49,7 @@ const Register = () => {
         }
     };
 
-    const handleNext = () => {
+    const handleNext = async () => {
         if(currentStep === 1){
             let requiredFields = ["firstName", "lastName", "date", "phone", "email", "city"];
             let missingFields = requiredFields.filter(field => !formData[field as keyof FormValues]);
@@ -59,6 +62,62 @@ const Register = () => {
             setCurrentStep(currentStep + 1);
         } else {
             console.log('Formularz gotowy do wysłania:', formData);
+            
+            // Get the user_id from userData
+            const userId = userData?.id;
+            
+            // Transform data to match backend schema
+            const transformedData = {
+                first_name: formData.firstName,
+                last_name: formData.lastName,
+                phone: formData.phone,
+                email: formData.email,
+                address: formData.city,
+                job_experience: formData.work_experience?.map(exp => ({
+                    position: exp.position,
+                    company: exp.company,
+                    start_date: exp.start_date || "",
+                    end_date: exp.end_date || "",
+                    user_id: userId
+                })) || [],
+                education: formData.education?.length ? formData.education.map(edu => ({
+                    degree: edu.degree || "",
+                    field: edu.field || "",
+                    institution: edu.institution || "",
+                    graduation_date: edu.graduation_date || "",
+                    user_id: userId
+                })) : [{
+                    degree: formData.degree || "",
+                    field: formData.fieldOfStudy || "",
+                    institution: "", 
+                    graduation_date: formData.graduationYear || "",
+                    user_id: userId
+                }],
+                certificates: formData.certifications?.map(cert => ({
+                    name: cert.name,
+                    issuer: cert.issuer,
+                    issue_date: cert.date,
+                    user_id: userId
+                })) || [],
+                interests: formData.interests?.map(interest => ({
+                    interest: interest,
+                    user_id: userId
+                })) || []
+            };
+            
+            console.log('Transformed data:', transformedData);
+            
+            try {
+                const response = await axiosInstance.put(`/users/email/${userData.email}`, transformedData);
+                console.log('Server response:', response);
+                setUserData(response.data);
+                localStorage.setItem("userData", JSON.stringify(response.data));
+                navigate('/dashboard');
+            } catch (error: any) {
+                console.error('Error updating user:', error);
+                console.error('Error response:', error.response?.data);
+                alert(`Błąd aktualizacji danych: ${error.response?.data?.detail || error.message}`);
+            }
         }
     };
 
@@ -94,22 +153,19 @@ const Register = () => {
     };
 
     return (
+        <div>
+        <Nav/>
         <div style={{ 
+            width: '100%',
             maxWidth: '800px', 
             margin: '0 auto', 
             padding: '20px'
         }}>
             <ProgressBar currentStep={currentStep} totalSteps={3} />
-            <h1 style={{ 
-                textAlign: 'center',
-                marginBottom: '30px',
-                color: '#333'
-            }}>
-                Rejestracja
-            </h1>
             
             <div style={{ 
-                marginBottom: '30px',
+                marginTop: '12px',
+                marginBottom: '24px',
                 textAlign: 'center',
                 color: '#666'
             }}>
@@ -141,6 +197,7 @@ const Register = () => {
                     {currentStep === 3 ? 'Zakończ' : 'Dalej'}
                 </button>
             </div>
+        </div>
         </div>
     );
 };

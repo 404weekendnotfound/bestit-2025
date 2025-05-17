@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { Formik, Form } from 'formik';
 import type { FormikHelpers } from 'formik';
-import axios from 'axios';
 import "./Login.scss";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../api/axios";
 import { useUserData } from "../../context/UserDataContext";
+import Nav from "../../components/Nav/Nav";
 interface FormValues {
     file: File | null;
     notes: (string | null)[];
@@ -69,11 +68,19 @@ const Login = () => {
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const response = await axiosInstance.post("/auth/login", {
-                email: formData.email,
-                password: formData.password
-            });
+            const response = await axiosInstance.get(`/users/email/${formData.email}`);
             console.log(response);
+            setUserData({
+                ...response.data,
+                firstName: response.data.first_name,
+                lastName: response.data.last_name,
+                email: response.data.email,
+                password: response.data.password,
+                repeatPassword: response.data.repeat_password,
+                file: response.data.file,
+            });
+            localStorage.setItem("userData", JSON.stringify(response.data));
+            navigate("/dashboard");
             // Tutaj możesz dodać przekierowanie po zalogowaniu
         } catch (err) {
             console.error(err);
@@ -110,6 +117,8 @@ const Login = () => {
     };
 
     return (
+        <div>
+        <Nav/>
         <div className="login-container">
             <div className="login-form">
                 <h1>{currentView === "login" ? "Logowanie" : "Rejestracja"}</h1>
@@ -198,6 +207,7 @@ const Login = () => {
                     </p>
                 )}
             </div>
+        </div>
         </div>
     );
 };

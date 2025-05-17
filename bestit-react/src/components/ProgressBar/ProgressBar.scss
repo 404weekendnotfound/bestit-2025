@@ -4,17 +4,30 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: relative;
+    &::before{
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background-color: #2a969c;
+        transform: translateY(-50%);
+    }
     &-step{
+        position: relative;
+        z-index: 5;
         width: 48px;
         height: 48px;
         border-radius: 50%;
-        background-color: #b7927c;
+        background-color: #2a969c;
         color: #fff;
         display: flex;
         align-items: center;
         justify-content: center; 
         &.active{
-            background-color: #a25c34;
+            background-color: #204244;
         }
     }
 }
