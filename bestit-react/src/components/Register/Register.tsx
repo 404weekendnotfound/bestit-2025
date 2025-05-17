@@ -7,20 +7,11 @@ import { useUserData } from '../../context/UserDataContext';
 import Step3 from './Step3';
 import type { FormValues } from './types';
 
-interface RegisterData extends FormValues {
-    skills: string;
-    additional_info: string;
-    cv: string;
-    photo: string;
-    certifications: string;
-    interests: string;
-}
-
 const Register = () => {
     const {userData} = useUserData();
 
     const [currentStep, setCurrentStep] = useState(1);
-    const [formData, setFormData] = useState<RegisterData>({
+    const [formData, setFormData] = useState<FormValues>({
         firstName: userData?.first_name || '',
         lastName: userData?.last_name || '',
         date: userData?.date || '',
@@ -29,20 +20,19 @@ const Register = () => {
         city: userData?.city || '',
         education: userData?.education || [],
         work_experience: userData?.work_experience || [],
-        skills: userData?.skills || '',
-        additional_info: userData?.additional_info || '',
+        skills: userData?.skills || [],
+        certifications: userData?.certifications || [],
+        interests: userData?.interests || [],
+        additionalInfo: userData?.additional_info || '',
         cv: userData?.cv || '',
         photo: userData?.photo || '',
         degree: userData?.degree || '',
         fieldOfStudy: userData?.field_of_study || '',
         graduationYear: userData?.graduation_year || '',
-        languages: userData?.languages || '',
-        certifications: userData?.certifications || '',
-        additionalInfo: userData?.additional_info || '',
-        interests: userData?.interests || ''
+        languages: userData?.languages || ''
     });
 
-    const handleStepSubmit = (data: Partial<RegisterData>) => {
+    const handleStepSubmit = (data: Partial<FormValues>) => {
         setFormData(prev => ({
             ...prev,
             ...data
@@ -59,7 +49,7 @@ const Register = () => {
     const handleNext = () => {
         if(currentStep === 1){
             let requiredFields = ["firstName", "lastName", "date", "phone", "email", "city"];
-            let missingFields = requiredFields.filter(field => !formData[field as keyof RegisterData]);
+            let missingFields = requiredFields.filter(field => !formData[field as keyof FormValues]);
             if(missingFields.length > 0){
                 alert(`Proszę wypełnić wszystkie wymagane pola: ${missingFields.join(", ")}`);
                 return;
@@ -68,9 +58,7 @@ const Register = () => {
         if (currentStep < 3) {
             setCurrentStep(currentStep + 1);
         } else {
-            // Tutaj możemy dodać logikę wysyłania formularza
             console.log('Formularz gotowy do wysłania:', formData);
-            // Możemy dodać wywołanie API do zapisania danych
         }
     };
 

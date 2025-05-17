@@ -5,24 +5,35 @@ export interface FormValues {
     phone: string;
     email: string;
     city: string;
-    education: Array<{
+    education: {
         institution: string;
         degree: string;
+        field: string;
         start_date: string;
-        end_date: string;
-    }>;
-    work_experience: Array<{
+        graduation_date: string;
+    }[];
+    work_experience: {
         company: string;
         position: string;
         start_date: string;
         end_date: string;
-    }>;
+    }[];
+    skills: {
+        name: string;
+        level: string;
+    }[];
+    certifications: {
+        name: string;
+        date: string;
+    }[];
+    interests: string[];
+    additionalInfo?: string;
+    cv?: string;
+    photo?: string;
     degree?: string;
     fieldOfStudy?: string;
     graduationYear?: string;
     languages?: string;
-    certificates?: string;
-    additionalInfo?: string;
 }
 
 export interface StepProps {

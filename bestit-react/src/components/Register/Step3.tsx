@@ -1,28 +1,30 @@
 import React, { useState } from 'react';
 import type { StepProps } from './types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 
 const Step3 = ({ formData, setFormData }: StepProps) => {
 
 
-    const addCertificate = () => {
-        const newCertificate = {
+    const addCertification = () => {
+        const newCertification = {
             name: '',
             date: '',
         };
         setFormData({
             ...formData,
-            certificates: [...formData.certificates, newCertificate]
+            certifications: [...formData.certifications, newCertification]
         });
         setEditingExperience(true);
     };
 
     const handleCertificateChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
-        const newCertificates = [...formData.certificates];
-        newCertificates[index] = {
+        const newCertifications = [...formData.certifications];
+        newCertifications[index] = {
             name: e.target.value,
             date: '',
         };
-        setFormData({ ...formData, certificates: newCertificates });
+        setFormData({ ...formData, certifications: newCertifications });
     };
 
     const handleInterestChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,14 +33,14 @@ const Step3 = ({ formData, setFormData }: StepProps) => {
         setFormData({ ...formData, interests: newInterests });
     };
 
-    const removeCertificate = (index: number) => {
+    const removeCertifications = (index: number) => {
         if (formData.certifications.length <= 1) {
             return;
         }
-        const newCertificate = formData.certifications.filter((_, i) => i !== index);
+        const newCertifications = formData.certifications.filter((_, i) => i !== index);
         setFormData({
             ...formData,
-            certificates: newCertificate
+            certifications: newCertifications
         });
     }
 
@@ -79,6 +81,11 @@ const Step3 = ({ formData, setFormData }: StepProps) => {
         if (formData.interests.length <= 1) {
             return;
         }
+        const newInterests = formData.interests.filter((_, i) => i !== index);
+        setFormData({
+            ...formData,
+            interests: newInterests
+        });
     }
 
     const handleSkillLevelChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
@@ -89,18 +96,25 @@ const Step3 = ({ formData, setFormData }: StepProps) => {
 
     const handleCertificateDateChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
         const newCertificates = [...formData.certifications];
-        newCertificates[index].date = e.target.value;
+        newCertificates[index] = {
+            ...newCertificates[index],
+            date: e.target.value
+        };
         setFormData({ ...formData, certifications: newCertificates });
     }
 
     return (
         <div className="form-container">
-        
             <div className="form-field">
                 <label htmlFor="languages" className="form-label">
                     Umiejętności
                 </label>
-                <button className='form-button' onClick={addSkill}>Dodaj</button>
+                <div className="header-buttons">
+                    <div className="add-button" onClick={addSkill}>
+                        <FontAwesomeIcon icon={faPlus} />
+                        <span>Dodaj</span>
+                    </div>
+                </div>
                 {formData?.skills && formData?.skills?.map((skill, index) => (
                     <div key={index}>
                         <input
@@ -115,7 +129,9 @@ const Step3 = ({ formData, setFormData }: StepProps) => {
                             value={skill.level}
                             onChange={(e) => handleSkillLevelChange(index, e)}
                         />
-                        <button className='form-button' onClick={() => removeSkill(index)}>Usuń</button>
+                        <div className="remove-button" onClick={() => removeSkill(index)}>
+                            <FontAwesomeIcon icon={faMinus} />
+                        </div>                  
                     </div>
                 ))}
             </div>
@@ -124,8 +140,13 @@ const Step3 = ({ formData, setFormData }: StepProps) => {
                 <label htmlFor="certificates" className="form-label">
                 Certyfikaty i szkolenia
                 </label>
-                <button className='form-button' onClick={addCertificate}>Dodaj</button>
-                {formData?.certifications && formData?.certifications?.map((certificate, index) => (
+                <div className="header-buttons">
+                    <div className="add-button" onClick={addCertification}>
+                        <FontAwesomeIcon icon={faPlus} />
+                        <span>Dodaj</span>
+                    </div>
+                </div>
+                 {formData?.certifications && formData?.certifications?.map((certificate, index) => (
                     <div key={index}>
                         <input
                             className='form-input'
@@ -139,8 +160,10 @@ const Step3 = ({ formData, setFormData }: StepProps) => {
                             value={certificate.date}
                             onChange={(e) => handleCertificateDateChange(index, e)}
                         />
-                        <button className='form-button' onClick={() => removeCertificate(index)}>Usuń</button>
-                    </div>
+                        <div className="remove-button" onClick={() => removeCertification(index)}>
+                            <FontAwesomeIcon icon={faMinus} />
+                        </div>              
+                     </div>
                 ))}
             </div>
 
@@ -148,7 +171,12 @@ const Step3 = ({ formData, setFormData }: StepProps) => {
                 <label htmlFor="additionalInfo" className="form-label">
                     Zainteresowania
                 </label>
-                <button className='form-button' onClick={addInterest}>Dodaj</button>
+                <div className="header-buttons">
+                    <div className="add-button" onClick={addInterest}>
+                        <FontAwesomeIcon icon={faPlus} />
+                        <span>Dodaj</span>
+                    </div>                
+                </div>
                 {formData?.interests && formData?.interests?.map((interest, index) => (
                     <div key={index}>
                         <input
@@ -157,7 +185,9 @@ const Step3 = ({ formData, setFormData }: StepProps) => {
                             value={interest}
                             onChange={(e) => handleInterestChange(index, e)}
                         />
-                        <button className='form-button' onClick={() => removeInterest(index)}>Usuń</button>
+                        <div className="remove-button" onClick={() => removeInterest(index)}>
+                            <FontAwesomeIcon icon={faMinus} />
+                        </div> 
                     </div>
                 ))}
             </div>
