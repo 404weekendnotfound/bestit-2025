@@ -8,6 +8,7 @@ import Profil from './views/Profil/Profil'
 import ChatView from './views/Chat/ChatView'
 import Experts from './views/Experts/Experts'
 import SingleExpert from './views/SingleExpert/SingleExpert'
+import Health from './views/Health/Health'
 function Home() {
   return (
     <div>
@@ -20,6 +21,8 @@ function Home() {
           <li><Link to="/register">Register</Link></li>
           <li><Link to="/dashboard">Dashboard</Link></li>
           <li><Link to="/experts">Experts</Link></li>
+          <li><Link to="/profil">Profil</Link></li>
+          <li><Link to="/health">Health</Link></li>
         </ul>
       </nav>
     </div>
@@ -40,6 +43,7 @@ function App() {
         <Route path="/chat" element={<ChatView />} />
         <Route path="/experts" element={<Experts />} />
         <Route path="/experts/:id" element={<SingleExpert />} />
+        <Route path="/health" element={<Health />} />
       </Routes>
     </BrowserRouter>
   )

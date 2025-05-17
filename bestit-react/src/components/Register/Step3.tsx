@@ -4,9 +4,53 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 import './Step2.scss';
 
-
 const Step3 = ({ formData, setFormData }: StepProps) => {
+    const [errors, setErrors] = useState<{
+        skills: string[];
+        certifications: string[];
+        interests: string[];
+    }>({
+        skills: [],
+        certifications: [],
+        interests: []
+    });
 
+    const validateSkill = (skill: { name: string; level: string }, index: number) => {
+        const newErrors = [...errors.skills];
+        if (!skill.name) {
+            newErrors[index] = "Nazwa umiejętności jest wymagana";
+        } else if (!skill.level) {
+            newErrors[index] = "Poziom umiejętności jest wymagany";
+        } else {
+            newErrors[index] = "";
+        }
+        setErrors(prev => ({ ...prev, skills: newErrors }));
+        return !newErrors[index];
+    };
+
+    const validateCertification = (cert: { name: string; date: string }, index: number) => {
+        const newErrors = [...errors.certifications];
+        if (!cert.name) {
+            newErrors[index] = "Nazwa certyfikatu jest wymagana";
+        } else if (!cert.date) {
+            newErrors[index] = "Data uzyskania jest wymagana";
+        } else {
+            newErrors[index] = "";
+        }
+        setErrors(prev => ({ ...prev, certifications: newErrors }));
+        return !newErrors[index];
+    };
+
+    const validateInterest = (interest: string, index: number) => {
+        const newErrors = [...errors.interests];
+        if (!interest) {
+            newErrors[index] = "Zainteresowanie jest wymagane";
+        } else {
+            newErrors[index] = "";
+        }
+        setErrors(prev => ({ ...prev, interests: newErrors }));
+        return !newErrors[index];
+    };
 
     const addCertification = () => {
         const newCertification = {
@@ -23,16 +67,18 @@ const Step3 = ({ formData, setFormData }: StepProps) => {
     const handleCertificateChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
         const newCertifications = [...formData.certifications];
         newCertifications[index] = {
-            name: e.target.value,
-            date: '',
+            ...newCertifications[index],
+            name: e.target.value
         };
         setFormData({ ...formData, certifications: newCertifications });
+        validateCertification(newCertifications[index], index);
     };
 
     const handleInterestChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
         const newInterests = [...formData.interests];
         newInterests[index] = e.target.value;
         setFormData({ ...formData, interests: newInterests });
+        validateInterest(newInterests[index], index);
     };
 
     const removeCertifications = (index: number) => {
@@ -64,6 +110,7 @@ const Step3 = ({ formData, setFormData }: StepProps) => {
             name: e.target.value
         };
         setFormData({ ...formData, skills: newSkills });
+        validateSkill(newSkills[index], index);
     }
 
     const removeSkill = (index: number) => {
@@ -95,8 +142,12 @@ const Step3 = ({ formData, setFormData }: StepProps) => {
 
     const handleSkillLevelChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
         const newSkills = [...formData.skills];
-        newSkills[index].level = e.target.value;
+        newSkills[index] = {
+            ...newSkills[index],
+            level: e.target.value
+        };
         setFormData({ ...formData, skills: newSkills });
+        validateSkill(newSkills[index], index);
     }
 
     const handleCertificateDateChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
@@ -106,6 +157,7 @@ const Step3 = ({ formData, setFormData }: StepProps) => {
             date: e.target.value
         };
         setFormData({ ...formData, certifications: newCertificates });
+        validateCertification(newCertificates[index], index);
     }
 
     return (
@@ -126,20 +178,25 @@ const Step3 = ({ formData, setFormData }: StepProps) => {
                             <FontAwesomeIcon icon={faMinus} />
                         </div>
                     )}
-                    <input
-                        className='form-input'
-                        type="text"
-                        value={skill.name}
-                        placeholder="Nazwa umiejętności"
-                        onChange={(e) => handleSkillChange(index, e)}
-                    />
-                    <input
-                        className='form-input'
-                        type="text"
-                        value={skill.level}
-                        placeholder="Poziom umiejętności"
-                        onChange={(e) => handleSkillLevelChange(index, e)}
-                    />
+                    <div className="input-group">
+                        <input
+                            className={`form-input ${errors.skills[index] ? 'error' : ''}`}
+                            type="text"
+                            value={skill.name}
+                            placeholder="Nazwa umiejętności"
+                            onChange={(e) => handleSkillChange(index, e)}
+                        />
+                        <input
+                            className={`form-input ${errors.skills[index] ? 'error' : ''}`}
+                            type="text"
+                            value={skill.level}
+                            placeholder="Poziom umiejętności"
+                            onChange={(e) => handleSkillLevelChange(index, e)}
+                        />
+                        {errors.skills[index] && (
+                            <div className="error-message">{errors.skills[index]}</div>
+                        )}
+                    </div>
                 </div>
             ))}
 
@@ -159,19 +216,24 @@ const Step3 = ({ formData, setFormData }: StepProps) => {
                             <FontAwesomeIcon icon={faMinus} />
                         </div>
                     )}
-                    <input
-                        className='form-input'
-                        type="text"
-                        value={certificate.name}
-                        placeholder="Nazwa certyfikatu"
-                        onChange={(e) => handleCertificateChange(index, e)}
-                    />
-                    <input
-                        className='form-input'
-                        type="date"
-                        value={certificate.date}
-                        onChange={(e) => handleCertificateDateChange(index, e)}
-                    />
+                    <div className="input-group">
+                        <input
+                            className={`form-input ${errors.certifications[index] ? 'error' : ''}`}
+                            type="text"
+                            value={certificate.name}
+                            placeholder="Nazwa certyfikatu"
+                            onChange={(e) => handleCertificateChange(index, e)}
+                        />
+                        <input
+                            className={`form-input ${errors.certifications[index] ? 'error' : ''}`}
+                            type="date"
+                            value={certificate.date}
+                            onChange={(e) => handleCertificateDateChange(index, e)}
+                        />
+                        {errors.certifications[index] && (
+                            <div className="error-message">{errors.certifications[index]}</div>
+                        )}
+                    </div>
                 </div>
             ))}
 
@@ -191,13 +253,18 @@ const Step3 = ({ formData, setFormData }: StepProps) => {
                             <FontAwesomeIcon icon={faMinus} />
                         </div>
                     )}
-                    <input
-                        className='form-input'
-                        type="text"
-                        value={interest}
-                        placeholder="Zainteresowanie"
-                        onChange={(e) => handleInterestChange(index, e)}
-                    />
+                    <div className="input-group">
+                        <input
+                            className={`form-input ${errors.interests[index] ? 'error' : ''}`}
+                            type="text"
+                            value={interest}
+                            placeholder="Zainteresowanie"
+                            onChange={(e) => handleInterestChange(index, e)}
+                        />
+                        {errors.interests[index] && (
+                            <div className="error-message">{errors.interests[index]}</div>
+                        )}
+                    </div>
                 </div>
             ))}
         </div>
