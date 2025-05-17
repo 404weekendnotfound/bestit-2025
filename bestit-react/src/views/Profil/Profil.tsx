@@ -199,6 +199,7 @@ const Profil: React.FC = () => {
                                 <input
                                     type="text"
                                     value={exp.company}
+                                    className="experience-company"
                                     onChange={e => updateExperience(exp.id, 'company', e.target.value)}
                                     placeholder="Nazwa firmy"
                                     disabled={!isEditing}
@@ -215,6 +216,7 @@ const Profil: React.FC = () => {
                             <input
                                 type="text"
                                 value={exp.position}
+                                className="experience-position"                              
                                 onChange={e => updateExperience(exp.id, 'position', e.target.value)}
                                 placeholder="Stanowisko"
                                 disabled={!isEditing}
@@ -223,13 +225,14 @@ const Profil: React.FC = () => {
                                 <input
                                     type="date"
                                     value={exp.startDate}
+                                    className="experience-date"
                                     onChange={e => updateExperience(exp.id, 'startDate', e.target.value)}
                                     disabled={!isEditing}
                                 />
-                                <span>-</span>
                                 <input
                                     type="date"
                                     value={exp.endDate}
+                                    className="experience-date"
                                     onChange={e => updateExperience(exp.id, 'endDate', e.target.value)}
                                     disabled={!isEditing}
                                 />

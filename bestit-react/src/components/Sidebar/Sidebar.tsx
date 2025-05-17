@@ -47,6 +47,13 @@ const Sidebar = () => {
                     <span>Eksperci</span>
                 </Link>
             </li>
+            <li className={navigation.pathname === "/health" ? "active" : ""}>
+                <Link to="/health">
+                    <i className="fas fa-user-tie"></i>
+                    <span>Wdzięcznopis</span>
+                </Link>
+            </li>
+
         </ul>
         <div className="user-section">
             <Link to="/profil" className="user-info">

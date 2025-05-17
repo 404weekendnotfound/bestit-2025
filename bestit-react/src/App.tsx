@@ -8,8 +8,8 @@ import Profil from './views/Profil/Profil'
 import ChatView from './views/Chat/ChatView'
 import Experts from './views/Experts/Experts'
 import SingleExpert from './views/SingleExpert/SingleExpert'
+import Health from './views/Health/Health'
 import { useUserData } from './context/UserDataContext'
-import VideoRoom from './views/VideoRoom/VideoRoom'
 
 
 function App() {
@@ -26,8 +26,8 @@ function App() {
         <Route path="/chat" element={<ChatView />} />
         <Route path="/experts" element={<Experts />} />
         <Route path="/experts/:id" element={<SingleExpert />} />
+        <Route path="/health" element={<Health />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/video/:id" element={<VideoRoom />} />
       </Routes>
     ) : (
       <Routes>
