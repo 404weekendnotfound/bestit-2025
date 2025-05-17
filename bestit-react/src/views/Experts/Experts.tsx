@@ -17,7 +17,7 @@ const Experts: React.FC = () => {
         <Layout>
             <div className="box">
                 <h1>Experts</h1>
-                {experts.length > 0 ? experts.map((expert) => (
+                {experts && experts?.length > 0 ? experts.map((expert) => (
                     <Link to={`/experts/${expert.id}`} key={expert.id}>
                         <h2>{expert.first_name} {expert.last_name}</h2>
                         <p>{expert.email}</p>
