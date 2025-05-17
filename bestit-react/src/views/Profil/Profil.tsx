@@ -131,7 +131,7 @@ const Profil: React.FC = () => {
 
     return (
         <Layout>
-        <div className="profile-container">
+        <div className="profile-container box">
             <div className="profile-header">
                 <div className="avatar-section" onClick={handleAvatarClick}>
                     {profile.avatar ? (

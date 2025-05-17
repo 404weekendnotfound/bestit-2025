@@ -5,7 +5,7 @@ import Login from './views/Login/Login'
 import Register from './components/Register/Register'
 import Dashboard from './views/Dashboard/Dashboard'
 import Profil from './views/Profil/Profil'
-
+import ChatView from './views/Chat/ChatView'
 
 function Home() {
   return (
@@ -35,6 +35,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profil" element={<Profil />} />
+        <Route path="/chat" element={<ChatView />} />
       </Routes>
     </BrowserRouter>
   )

@@ -1,11 +1,18 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
+import { useUserData } from '../../context/UserDataContext';
 
 const Sidebar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const { userData } = useUserData();
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
+
+
+    const navigation = useLocation();
+    console.log(navigation);
+    
     return (
         <nav className={`sidebar ${isMenuOpen ? 'open' : ''}`}>
         <div className="logo">
@@ -17,51 +24,45 @@ const Sidebar = () => {
             <span></span>
         </button>
         <ul className="nav-links">
-            <li>
+            <li className={navigation.pathname === "/dashboard" ? "active" : ""}>
                 <Link to="/dashboard">
                     <i className="fas fa-home"></i>
                     <span>Strona główna</span>
                 </Link>
             </li>
-            <li>
+            <li className={navigation.pathname === "/profil" ? "active" : ""}>
                 <Link to="/profil">
                     <i className="fas fa-user"></i>
                     <span>Profil</span>
                 </Link>
             </li>
-            <li>
-                <Link to="/dashboard/applications">
+            <li className={navigation.pathname === "/chat" ? "active" : ""}>
+                <Link to="/chat">
                     <i className="fas fa-briefcase"></i>
-                    <span>Moje aplikacje</span>
+                    <span>Chat</span>
                 </Link>
             </li>
-            <li>
-                <Link to="/dashboard/messages">
+            <li className={navigation.pathname === "/messages" ? "active" : ""}>
+                <Link to="/messages">
                     <i className="fas fa-envelope"></i>
                     <span>Wiadomości</span>
                 </Link>
             </li>
-            <li>
-                <Link to="/dashboard/settings">
-                    <i className="fas fa-cog"></i>
-                    <span>Ustawienia</span>
-                </Link>
-            </li>
         </ul>
         <div className="user-section">
-            <div className="user-info">
+            <Link to="/profil" className="user-info">
                 <div className="user-avatar">
                     <i className="fas fa-user-circle"></i>
                 </div>
                 <div className="user-details">
-                    <span className="user-name">Jan Kowalski</span>
+                    <span className="user-name">{userData?.first_name} {userData?.last_name}</span>
                     <span className="user-role">Użytkownik</span>
                 </div>
-            </div>
-            <button className="logout-button">
+            </Link>
+            <Link to="/login" className="logout-button">
                 <i className="fas fa-sign-out-alt"></i>
                 <span>Wyloguj</span>
-            </button>
+            </Link>
         </div>
     </nav>
     );

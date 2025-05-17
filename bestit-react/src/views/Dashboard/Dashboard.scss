@@ -2,7 +2,7 @@
 
 $sidebar-width: 250px;
 $sidebar-collapsed-width: 70px;
-$primary-color: #4CAF50;
+$primary-color: #204244;
 $secondary-color: #45a049;
 $text-color: #333;
 $light-text: #fff;
@@ -31,18 +31,11 @@ $transition-speed: 0.3s;
 
 // Sidebar Styles
 .sidebar {
-    width: $sidebar-width;
-    background: $primary-color;
-    color: $light-text;
-    padding: 1rem;
-    transition: width $transition-speed ease;
+    background: #EFF0F4;
+    color: #121212;
+    padding: 24px;
     position: relative;
-    height: 100vh;
     overflow-y: auto;
-
-    &.open {
-        width: $sidebar-width;
-    }
 
     .logo {
         padding: 1rem 0;
@@ -86,11 +79,13 @@ $transition-speed: 0.3s;
     li {
         margin: 0.5rem 0;
 
+        
+
         a {
             display: flex;
             align-items: center;
             padding: 0.75rem 1rem;
-            color: $light-text;
+            color: #121212;
             text-decoration: none;
             border-radius: 4px;
             transition: background-color $transition-speed ease;
@@ -104,6 +99,13 @@ $transition-speed: 0.3s;
                 font-size: 1.2rem;
             }
         }
+        &.active{
+            background-color: #204244;
+            border-radius: 8px;
+           a{
+            color: #fff;
+           }
+        }
     }
 }
 
@@ -114,6 +116,7 @@ $transition-speed: 0.3s;
     border-top: 1px solid rgba($light-text, 0.1);
 
     .user-info {
+        color: #121212;
         display: flex;
         align-items: center;
         padding: 0.5rem 0;
@@ -150,18 +153,18 @@ $transition-speed: 0.3s;
         width: 100%;
         padding: 0.75rem;
         margin-top: 0.5rem;
-        background: rgba($light-text, 0.1);
         border: none;
-        border-radius: 4px;
-        color: $light-text;
+        border-radius: 12px;
         cursor: pointer;
+        background-color: #F0BF6F;
+        color: #121212;
         display: flex;
         align-items: center;
         justify-content: center;
         transition: background-color $transition-speed ease;
 
         &:hover {
-            background: rgba($light-text, 0.2);
+            background-color: #cb9235;
         }
 
         i {
@@ -170,22 +173,8 @@ $transition-speed: 0.3s;
     }
 }
 
-// Main Content Area
-.content {
-    flex: 1;
-    background: $background-light;
-    padding: 1rem;
-    overflow-y: auto;
-}
-
-// Dashboard Header
 .dashboard-header {
     @include flex-between;
-    padding: 1rem;
-    background: $light-text;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 1rem;
 
     .search-bar {
         position: relative;
@@ -240,14 +229,6 @@ $transition-speed: 0.3s;
             }
         }
     }
-}
-
-// Dashboard Content
-.dashboard-content {
-    background: $light-text;
-    border-radius: 8px;
-    padding: 1.5rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 // Calendar Styles
@@ -342,11 +323,8 @@ $transition-speed: 0.3s;
 .date-navigation {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
-    padding: 1rem;
-    background: $light-text;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    justify-content: space-between;
+    width: 100%;
 
     .nav-btn {
         background: none;
@@ -477,6 +455,11 @@ $transition-speed: 0.3s;
     }
 }
 
+.content{
+    flex: 1;
+}
+
+
 // Main Progress Bar
 .main-progress {
     margin-bottom: 1.5rem;
@@ -554,9 +537,6 @@ $transition-speed: 0.3s;
         }
     }
 
-    .content {
-        margin-left: 0;
-    }
 
     .dashboard-header {
         .search-bar {

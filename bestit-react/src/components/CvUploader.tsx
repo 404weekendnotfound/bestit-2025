@@ -133,8 +133,8 @@ const CvUploader = () => {
                                         marginTop: '8px',
                                         padding: '4px 8px',
                                         backgroundColor: 'transparent',
-                                        color: '#4CAF50',
-                                        border: '1px solid #4CAF50',
+                                        color: '#204244',
+                                        border: '1px solid #204244',
                                         borderRadius: '4px',
                                         cursor: 'pointer',
                                         fontSize: '14px'
@@ -149,7 +149,7 @@ const CvUploader = () => {
                             type="submit"
                             disabled={isSubmitting}
                             style={{
-                                backgroundColor: '#4CAF50',
+                                backgroundColor: '#204244',
                                 color: 'white',
                                 padding: '10px 20px',
                                 border: 'none',

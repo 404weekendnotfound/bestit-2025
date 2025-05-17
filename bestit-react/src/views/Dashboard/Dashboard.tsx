@@ -58,7 +58,7 @@ const Dashboard = () => {
 
     return (
         <Layout>
-            <main className="content">
+            <main className="content box">
                 <header className="dashboard-header">
                     <div className="date-navigation">
                         <button className="nav-btn" onClick={() => navigateDate('prev')}>
