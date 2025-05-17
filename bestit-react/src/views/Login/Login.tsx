@@ -191,6 +191,7 @@ const Login = () => {
                                             {uploadStatus}
                                         </div>
                                     )}
+                                <p style={{fontSize: "10px"}}><input type="checkbox"></input> Wyrażam zgodę na przetwarzanie moich danych osobowych dla potrzeb rekrutacji zgodnie z art. 6 ust. 1 lit. a Rozporządzenia Parlamentu Europejskiego i Rady (UE) 2016/679 z dnia 27 kwietnia 2016 r.</p>
                         </div>
                     )}
 
