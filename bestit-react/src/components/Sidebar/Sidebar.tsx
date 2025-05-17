@@ -41,12 +41,6 @@ const Sidebar = () => {
                     <span>Chat</span>
                 </Link>
             </li>
-            <li className={navigation.pathname === "/messages" ? "active" : ""}>
-                <Link to="/messages">
-                    <i className="fas fa-envelope"></i>
-                    <span>Wiadomości</span>
-                </Link>
-            </li>
             <li className={navigation.pathname === "/experts" ? "active" : ""}>
                 <Link to="/experts">
                     <i className="fas fa-user-tie"></i>
