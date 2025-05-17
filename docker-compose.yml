@@ -13,7 +13,6 @@ services:
     networks:
       - bestit-network
 
-
   frontend:
     build:
       context: ./bestit-react         # katalog z Dockerfile frontendu
@@ -38,18 +37,23 @@ services:
     networks:
       - bestit-network
 
-
   adminer:
     image: adminer:latest
     container_name: adminer_container
     ports:
       - 6580:8080
 
+  debian:
+    image: debian:12-slim
+    container_name: debian_container
+    command: ["sleep", "infinity"]    # utrzymuje kontener w stanie aktywnym
+    networks:
+      - bestit-network
+
 volumes:
   backend_data:
   front_data:
   postgres_data:
-
 
 networks:
   bestit-network:
