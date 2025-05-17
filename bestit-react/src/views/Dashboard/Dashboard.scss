@@ -483,7 +483,7 @@ $transition-speed: 0.3s;
         left: 0;
         top: 0;
         height: 100%;
-        background: linear-gradient(90deg, $primary-color, lighten($primary-color, 10%));
+        background: $primary-color;
         border-radius: 6px;
         transition: width 0.5s ease;
         display: flex;
