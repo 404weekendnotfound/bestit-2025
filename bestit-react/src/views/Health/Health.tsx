@@ -1,6 +1,5 @@
 import Layout from "../../components/Layout/Layout"
-import axiosInstance from "../../api/axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Health: React.FC = () => {
@@ -8,12 +7,6 @@ const Health: React.FC = () => {
     const [values, setValues] = useState(['', '', '', '', '']);
     const [error, setError] = useState('');
     const [isClicked, setIsClicked] = useState(false);
-
-    useEffect(() => {
-        axiosInstance.get('/users').then((res) => {
-            setHealth(res.data);
-        });
-    }, []);
 
     const handleInputChange = (index: number, value: string) => {
         const newValues = [...values];
