@@ -9,23 +9,8 @@ import ChatView from './views/Chat/ChatView'
 import Experts from './views/Experts/Experts'
 import SingleExpert from './views/SingleExpert/SingleExpert'
 import { useUserData } from './context/UserDataContext'
-function Home() {
-  return (
-    <div>
-      <h1>Welcome to BestIT</h1>
-      <nav>
-        <ul>
-          <li><Link to="/linkedin">LinkedIn Form</Link></li>
-          <li><Link to="/cv">CV Upload</Link></li>
-          <li><Link to="/login">Login</Link></li>
-          <li><Link to="/register">Register</Link></li>
-          <li><Link to="/dashboard">Dashboard</Link></li>
-          <li><Link to="/experts">Experts</Link></li>
-        </ul>
-      </nav>
-    </div>
-  )
-}
+import VideoRoom from './views/VideoRoom/VideoRoom'
+
 
 function App() {
   const { userData } = useUserData();
@@ -42,6 +27,7 @@ function App() {
         <Route path="/experts" element={<Experts />} />
         <Route path="/experts/:id" element={<SingleExpert />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/video/:id" element={<VideoRoom />} />
       </Routes>
     ) : (
       <Routes>

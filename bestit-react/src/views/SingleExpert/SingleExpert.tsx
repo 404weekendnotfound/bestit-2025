@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import Layout from "../../components/Layout/Layout"
 import { useEffect } from "react";
 import { useState } from "react";
@@ -27,7 +27,7 @@ const SingleExpert: React.FC = () => {
                 <p>{expert.description || ''}</p>
                 <p>{expert.skills || ''}</p>
 
-                <button className="btn btn-primary">Umów spotkanie</button>
+                <Link to={`/video/${id}`} className="btn btn-primary">Umów spotkanie</Link>
                 
             </div> : <div className="box">
                 <h1>Expert not found</h1>

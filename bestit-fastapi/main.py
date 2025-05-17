@@ -1,5 +1,5 @@
 import requests
-from fastapi import FastAPI, UploadFile, File, HTTPException, Response, Depends
+from fastapi import FastAPI, UploadFile, File, HTTPException, Response, Depends, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 import os
 import shutil
@@ -11,11 +11,13 @@ from router import users_router, jobs_router, education_router, certification_ro
 from models import User, Job, Education, Certificate, Interest
 
 app = FastAPI()
+connections = {}
+
 
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # Frontend origin
+    allow_origins=["http://localhost:5173", "ws://localhost:5173", "https://app.weekendnotfound.pl", "ws://app.weekendnotfound.pl"],  # Frontend origins
     allow_credentials=True,
     allow_methods=["*"],  # Allow all methods
     allow_headers=["*"],  # Allow all headers
@@ -156,3 +158,44 @@ async def test():
     return {
         "Test": "test"
     }
+
+
+class ConnectionManager:
+    def __init__(self):
+        self.active_connections: dict[str, list[WebSocket]] = {}
+
+    async def connect(self, websocket: WebSocket, room_id: str):
+        await websocket.accept()
+        if room_id not in self.active_connections:
+            self.active_connections[room_id] = []
+        self.active_connections[room_id].append(websocket)
+
+    def disconnect(self, websocket: WebSocket, room_id: str):
+        if room_id in self.active_connections:
+            self.active_connections[room_id].remove(websocket)
+            if not self.active_connections[room_id]:
+                del self.active_connections[room_id]
+
+    async def broadcast_to_room(self, message: str, room_id: str, sender: WebSocket):
+        if room_id in self.active_connections:
+            for connection in self.active_connections[room_id]:
+                if connection != sender:
+                    try:
+                        await connection.send_text(message)
+                    except:
+                        await self.disconnect(connection, room_id)
+
+manager = ConnectionManager()
+
+@app.websocket("/ws/{room_id}")
+async def websocket_endpoint(websocket: WebSocket, room_id: str):
+    await manager.connect(websocket, room_id)
+    try:
+        while True:
+            data = await websocket.receive_text()
+            await manager.broadcast_to_room(data, room_id, websocket)
+    except WebSocketDisconnect:
+        manager.disconnect(websocket, room_id)
+    except Exception as e:
+        print(f"Error in websocket connection: {e}")
+        manager.disconnect(websocket, room_id)
