@@ -33,7 +33,7 @@ function App() {
     <BrowserRouter>
     {userData ? (
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Dashboard />} />
         <Route path="/linkedin" element={<LinkedInForm />} />
         <Route path="/cv" element={<CvUploader />} />
         <Route path="/dashboard" element={<Dashboard />} />
