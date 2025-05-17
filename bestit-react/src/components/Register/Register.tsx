@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import CvUploader from '../CvUploader';
 import Step1 from './Step1';
 import ProgressBar from '../ProgressBar/ProgressBar';
 import Step2 from './Step2';
@@ -8,6 +7,7 @@ import { useUserData } from '../../context/UserDataContext';
 import Step3 from './Step3';
 import type { FormValues } from './types';
 import axiosInstance from '../../api/axios';
+import Nav from '../Nav/Nav';
 
 const Register = () => {
     const {userData, setUserData} = useUserData();
@@ -153,22 +153,19 @@ const Register = () => {
     };
 
     return (
+        <div>
+        <Nav/>
         <div style={{ 
+            width: '100%',
             maxWidth: '800px', 
             margin: '0 auto', 
             padding: '20px'
         }}>
             <ProgressBar currentStep={currentStep} totalSteps={3} />
-            <h1 style={{ 
-                textAlign: 'center',
-                marginBottom: '30px',
-                color: '#333'
-            }}>
-                Rejestracja
-            </h1>
             
             <div style={{ 
-                marginBottom: '30px',
+                marginTop: '12px',
+                marginBottom: '24px',
                 textAlign: 'center',
                 color: '#666'
             }}>
@@ -200,6 +197,7 @@ const Register = () => {
                     {currentStep === 3 ? 'Zakończ' : 'Dalej'}
                 </button>
             </div>
+        </div>
         </div>
     );
 };

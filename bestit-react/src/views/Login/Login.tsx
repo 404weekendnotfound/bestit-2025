@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { Formik, Form } from 'formik';
 import type { FormikHelpers } from 'formik';
-import axios from 'axios';
 import "./Login.scss";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../api/axios";
 import { useUserData } from "../../context/UserDataContext";
+import Nav from "../../components/Nav/Nav";
 interface FormValues {
     file: File | null;
     notes: (string | null)[];
@@ -118,6 +117,8 @@ const Login = () => {
     };
 
     return (
+        <div>
+        <Nav/>
         <div className="login-container">
             <div className="login-form">
                 <h1>{currentView === "login" ? "Logowanie" : "Rejestracja"}</h1>
@@ -206,6 +207,7 @@ const Login = () => {
                     </p>
                 )}
             </div>
+        </div>
         </div>
     );
 };
