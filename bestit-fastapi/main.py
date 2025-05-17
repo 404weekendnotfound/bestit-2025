@@ -28,6 +28,8 @@ app.add_middleware(
         "wss://app.weekendnotfound.pl",
         "http://api.weekendnotfound.pl",
         "https://api.weekendnotfound.pl",
+        "http://localhost:8000",  # FastAPI development server
+        "https://localhost:8000",
     ],
     allow_credentials=True,
     allow_methods=["*"],
