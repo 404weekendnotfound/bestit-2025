@@ -88,6 +88,12 @@ const Login = () => {
         }
     };
 
+    const handleDemo = async () => {
+        setUserData({"first_name":"Marek","last_name":"Kowalski","address":"ul. Polna 12, 00-123 Warszawa","city":"Warszawa","phone":"+48 600 123 456","email":"marek.kowalski@example.com","linkedin":"linkedin.com/in/marekkowalski-bio","date_of_birth":null,"age":null,"work_experience":[{"position":"Senior Biomedical Engineer","company":"MedTech Solutions Sp. z o.o.","start_date":"2017","end_date":null},{"position":"R&D Engineer","company":"BioInnova SA","start_date":"2010","end_date":"2017"},{"position":"Biomedical Engineer","company":"Szpital Kliniczny XYZ","start_date":"2003","end_date":"2010"}],"education":[{"degree":"Doktor nauk technicznych (PhD)","field":"Inżynieria Biomedyczna","institution":"Politechnika Warszawska","graduation_date":"2014"},{"degree":"Magister inżynier","field":"Inżynieria Biomedyczna","institution":"Politechnika Warszawska, Wydział Mechatroniki","graduation_date":"2000"}],"certifications":[{"name":"PMP (Project Management Professional)","issuer":null,"date":"2018"},{"name":"Audytor wewnętrzny ISO 13485","issuer":null,"date":"2016"}],"skills":[{"name":"Projektowanie urządzeń medycznych (CAD, SolidWorks)","level":null},{"name":"Analiza sygnałów biomedycznych (MATLAB, Python)","level":null},{"name":"Regulatory Compliance (ISO 13485, MDR)","level":null},{"name":"Zarządzanie projektami (PMI, Agile)","level":null},{"name":"polski","level":"ojczysty"},{"name":"angielski","level":"C1"},{"name":"niemiecki","level":"B1"}],"interests":["Kolarstwo szosowe","druk 3D","fotografia techniczna"],"companies":[{"name":"MedTech Solutions Sp. z o.o.","website":null,"market_value":null,"revenue":null,"products_services":null},{"name":"BioInnova SA","website":null,"market_value":null,"revenue":null,"products_services":null},{"name":"Szpital Kliniczny XYZ","website":null,"market_value":null,"revenue":null,"products_services":null}],"db_error":"(psycopg2.errors.NotNullViolation) null value in column \"issuer\" of relation \"certificate\" violates not-null constraint\nDETAIL:  Failing row contains (6, PMP (Project Management Professional), null, 2018, 3).\n\n[SQL: INSERT INTO certificate (name, issuer, issue_date, user_id) SELECT p0::VARCHAR, p1::VARCHAR, p2::VARCHAR, p3::INTEGER FROM (VALUES (%(name__0)s, %(issuer__0)s, %(issue_date__0)s, %(user_id__0)s, 0), (%(name__1)s, %(issuer__1)s, %(issue_date__1)s, %(user_id__1)s, 1)) AS imp_sen(p0, p1, p2, p3, sen_counter) ORDER BY sen_counter RETURNING certificate.id, certificate.id AS id__1]\n[parameters: {'user_id__0': 3, 'issuer__0': None, 'name__0': 'PMP (Project Management Professional)', 'issue_date__0': '2018', 'user_id__1': 3, 'issuer__1': None, 'name__1': 'Audytor wewnętrzny ISO 13485', 'issue_date__1': '2016'}]\n(Background on this error at: https://sqlalche.me/e/20/gkpj)"});
+
+        navigate("/dashboard");
+    }
+
     const handleFileUpload = async (
         values: FormValues,
         { setSubmitting }: FormikHelpers<FormValues>
@@ -190,6 +196,9 @@ const Login = () => {
 
                     <button type="submit" className="btn btn-full" disabled={isLoading}>
                         {isLoading ? "Ładowanie..." : currentView === "login" ? "Zaloguj się" : "Zarejestruj się"}
+                    </button>
+                    <button className="btn btn-full" style={{marginTop: "12px"}} onClick={handleDemo}>
+                        Skorzystaj z demo
                     </button>
                 </form>
 

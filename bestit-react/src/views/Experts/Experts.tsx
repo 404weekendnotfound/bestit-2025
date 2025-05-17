@@ -45,26 +45,31 @@ const Experts: React.FC = () => {
     return (
         <Layout>
             <div className="box">
-                <h1>Experts</h1>
+                <h1>Transfer wiedzy</h1>
                 {loading ? (
-                    <p>Loading...</p>
+                    <p>Ładowanie...</p>
                 ) : error ? (
                     <p style={{ color: 'red' }}>{error}</p>
                 ) : experts.length > 0 ? (
                     <div className="experts-grid">
-                        {experts.map((expert) => (
+                        {experts.map((expert, index) => (
                             <Link 
                                 to={`/experts/${expert.id}`} 
                                 key={expert.id}
                                 className="expert-card"
                             >
+                                {index == 0 && (
+                                    <div className="expert-card__badge">
+                                        <span>Nowy mentor</span>
+                                    </div>
+                                )}
                                 <h2>{expert.first_name} {expert.last_name}</h2>
                                 <p>{expert.email}</p>
                             </Link>
                         ))}
                     </div>
                 ) : (
-                    <p>No experts found</p>
+                    <p>Brak ekspertów</p>
                 )}
             </div>
         </Layout>

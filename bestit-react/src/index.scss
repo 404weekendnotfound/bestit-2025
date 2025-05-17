@@ -241,6 +241,20 @@ $transition: all 0.3s ease;
     }
   }
 }
+.logo{
+  position: relative;
+  &__coins{
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 3px 9px;
+    border-radius: 8px;
+    background-color: #f0bf6f;
+    color: #121212;
+    font-weight: 600;
+    font-size: 12px;
+  }
+}
 
 .container{
   width: 100%;
@@ -376,6 +390,7 @@ $transition: all 0.3s ease;
 
 // Form Error States
 .form-input {
+  border: 1px solid #ccc;
   &.error {
     border-color: $error-color;
     

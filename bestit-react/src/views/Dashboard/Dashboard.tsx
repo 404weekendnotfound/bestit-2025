@@ -8,9 +8,9 @@ const Dashboard = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [currentDate, setCurrentDate] = useState(new Date());
     const [tasks, setTasks] = useState([
-        { id: 1, title: 'Zadanie 1', completed: false },
-        { id: 2, title: 'Zadanie 2', completed: true },
-        { id: 3, title: 'Zadanie 3', completed: false },
+        { id: 1, title: 'Definicja Serverless (5 minut)', completed: false },
+        { id: 2, title: 'Wady i ograniczenia (5 minut)', completed: true },
+        { id: 3, title: 'Mini-ćwiczenie (10 minut)', completed: false },
     ]);
 
     const progress = useMemo(() => {

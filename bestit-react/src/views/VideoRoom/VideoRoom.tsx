@@ -128,9 +128,9 @@ function VideoRoom() {
             {connectionError}
           </div>
         )}
-        <div style={{display: "flex", gap: "12px", minHeight: "600px"}}>
-          <video ref={localVideoRef} autoPlay muted style={{flex: 1}} />
-          <video ref={remoteVideoRef} autoPlay style={{flex: 1}} />
+        <div style={{display: "flex", gap: "12px", minHeight: "600px", position: "relative"}}>
+          <video ref={localVideoRef} autoPlay muted style={{width: "35%", position: "absolute", top: "0", left: "0", zIndex: 1, borderRadius: "4px", overflow: "hidden"}} />
+          <video ref={remoteVideoRef} autoPlay style={{width: "100%", position: "absolute", top: "0", right: "0", zIndex: 0, borderRadius: "4px", overflow: "hidden"}} />
         </div>
       </div>
     </Layout>

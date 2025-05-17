@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import { useUserData } from '../../context/UserDataContext';
+import logo from '../../assets/logo.png';
 
 const Sidebar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -15,7 +16,11 @@ const Sidebar = () => {
     return (
         <nav className={`sidebar ${isMenuOpen ? 'open' : ''}`}>
         <div className="logo">
-            <h2>BestIT</h2>
+            <div className="logo__coins">
+
+                <span>100 SC</span>
+            </div>
+            <img src={logo} style={{height: "96px"}} />
         </div>
         <button className="menu-toggle" onClick={toggleMenu}>
             <span></span>
@@ -43,13 +48,13 @@ const Sidebar = () => {
             </li>
             <li className={navigation.pathname === "/experts" ? "active" : ""}>
                 <Link to="/experts">
-                    <i className="fas fa-user-tie"></i>
-                    <span>Eksperci</span>
+                    <i className="fas fa-share-alt"></i>
+                    <span>Transfer wiedzy</span>
                 </Link>
             </li>
             <li className={navigation.pathname === "/health" ? "active" : ""}>
                 <Link to="/health">
-                    <i className="fas fa-user-tie"></i>
+                    <i className="fas fa-heart"></i>
                     <span>Wdzięcznopis</span>
                 </Link>
             </li>
