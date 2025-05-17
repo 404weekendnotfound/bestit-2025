@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import type { StepProps } from './types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
+import './Step2.scss';
+
 
 const Step3 = ({ formData, setFormData }: StepProps) => {
 
@@ -57,7 +59,10 @@ const Step3 = ({ formData, setFormData }: StepProps) => {
 
     const handleSkillChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
         const newSkills = [...formData.skills];
-        newSkills[index] = e.target.value;
+        newSkills[index] = {
+            ...newSkills[index],
+            name: e.target.value
+        };
         setFormData({ ...formData, skills: newSkills });
     }
 
@@ -105,92 +110,96 @@ const Step3 = ({ formData, setFormData }: StepProps) => {
 
     return (
         <div className="form-container">
-            <div className="form-field">
-                <label htmlFor="languages" className="form-label">
-                    Umiejętności
-                </label>
+            <div className="section-header">
+                <p className="form-title">Umiejętności</p>
                 <div className="header-buttons">
                     <div className="add-button" onClick={addSkill}>
                         <FontAwesomeIcon icon={faPlus} />
                         <span>Dodaj</span>
                     </div>
                 </div>
-                {formData?.skills && formData?.skills?.map((skill, index) => (
-                    <div key={index}>
-                        <input
-                            className='form-input'
-                            type="text"
-                            value={skill.name}
-                            onChange={(e) => handleSkillChange(index, e)}
-                        />
-                        <input
-                            className='form-input'
-                            type="text"
-                            value={skill.level}
-                            onChange={(e) => handleSkillLevelChange(index, e)}
-                        />
+            </div>
+            {formData?.skills && formData?.skills?.map((skill, index) => (
+                <div key={index} className="form-field editing">
+                    {formData.skills.length > 1 && (
                         <div className="remove-button" onClick={() => removeSkill(index)}>
                             <FontAwesomeIcon icon={faMinus} />
-                        </div>                  
-                    </div>
-                ))}
-            </div>
+                        </div>
+                    )}
+                    <input
+                        className='form-input'
+                        type="text"
+                        value={skill.name}
+                        placeholder="Nazwa umiejętności"
+                        onChange={(e) => handleSkillChange(index, e)}
+                    />
+                    <input
+                        className='form-input'
+                        type="text"
+                        value={skill.level}
+                        placeholder="Poziom umiejętności"
+                        onChange={(e) => handleSkillLevelChange(index, e)}
+                    />
+                </div>
+            ))}
 
-            <div className="form-field">
-                <label htmlFor="certificates" className="form-label">
-                Certyfikaty i szkolenia
-                </label>
+            <div className="section-header">
+                <p className="form-title">Certyfikaty i szkolenia</p>
                 <div className="header-buttons">
                     <div className="add-button" onClick={addCertification}>
                         <FontAwesomeIcon icon={faPlus} />
                         <span>Dodaj</span>
                     </div>
                 </div>
-                 {formData?.certifications && formData?.certifications?.map((certificate, index) => (
-                    <div key={index}>
-                        <input
-                            className='form-input'
-                            type="text"
-                            value={certificate.name}
-                            onChange={(e) => handleCertificateChange(index, e)}
-                        />
-                        <input
-                            className='form-input'
-                            type="text"
-                            value={certificate.date}
-                            onChange={(e) => handleCertificateDateChange(index, e)}
-                        />
-                        <div className="remove-button" onClick={() => removeCertification(index)}>
-                            <FontAwesomeIcon icon={faMinus} />
-                        </div>              
-                     </div>
-                ))}
             </div>
+            {formData?.certifications && formData?.certifications?.map((certificate, index) => (
+                <div key={index} className="form-field editing">
+                    {formData.certifications.length > 1 && (
+                        <div className="remove-button" onClick={() => removeCertifications(index)}>
+                            <FontAwesomeIcon icon={faMinus} />
+                        </div>
+                    )}
+                    <input
+                        className='form-input'
+                        type="text"
+                        value={certificate.name}
+                        placeholder="Nazwa certyfikatu"
+                        onChange={(e) => handleCertificateChange(index, e)}
+                    />
+                    <input
+                        className='form-input'
+                        type="date"
+                        value={certificate.date}
+                        onChange={(e) => handleCertificateDateChange(index, e)}
+                    />
+                </div>
+            ))}
 
-            <div className="form-field">
-                <label htmlFor="additionalInfo" className="form-label">
-                    Zainteresowania
-                </label>
+            <div className="section-header">
+                <p className="form-title">Zainteresowania</p>
                 <div className="header-buttons">
                     <div className="add-button" onClick={addInterest}>
                         <FontAwesomeIcon icon={faPlus} />
                         <span>Dodaj</span>
-                    </div>                
+                    </div>
                 </div>
-                {formData?.interests && formData?.interests?.map((interest, index) => (
-                    <div key={index}>
-                        <input
-                            className='form-input'
-                            type="text"
-                            value={interest}
-                            onChange={(e) => handleInterestChange(index, e)}
-                        />
+            </div>
+            {formData?.interests && formData?.interests?.map((interest, index) => (
+                <div key={index} className="form-field editing">
+                    {formData.interests.length > 1 && (
                         <div className="remove-button" onClick={() => removeInterest(index)}>
                             <FontAwesomeIcon icon={faMinus} />
-                        </div> 
-                    </div>
-                ))}
-            </div>
+                        </div>
+                    )}
+                    <input
+                        className='form-input'
+                        type="text"
+                        value={interest}
+                        placeholder="Zainteresowanie"
+                        onChange={(e) => handleInterestChange(index, e)}
+                    />
+                </div>
+            ))}
         </div>
     );
 };
