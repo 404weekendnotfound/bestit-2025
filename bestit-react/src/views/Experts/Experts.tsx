@@ -22,7 +22,7 @@ const Experts: React.FC = () => {
             try {
                 console.log('Using API URL:', API_URL);
                 setLoading(true);
-                const response = await axiosInstance.get('/users');
+                const response = await axiosInstance.get('/users/');
                 console.log('Response:', response.data);
                 // Ensure we're getting an array and it has the correct shape
                 if (Array.isArray(response.data)) {
