@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import select, Session
 
 from schemas import UserCreate, UserRead, JobCreate, JobRead, EducationCreate, EducationRead, CertificateCreate, \
-    CertificateRead, InterestCreate, InterestRead
+    CertificateRead, InterestCreate, InterestRead, UserWithDetails
 from models import User, Job, Education, Certificate, Interest
 from database import get_session
 
@@ -27,12 +27,18 @@ def create_user(user: UserCreate, session: Session = Depends(get_session)):
     return db_user
 
 
-@users_router.get("/{user_id}", response_model=UserRead)
+@users_router.get("/{user_id}", response_model=UserWithDetails)
 def read_user(user_id: int, session: Session = Depends(get_session)):
     """Endpoint do pobierania danych użytkownika po ID"""
     user = session.get(User, user_id)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
+
+    user.job_experience = read_user_jobs(user_id, session)
+    user.education = read_user_education(user_id, session)
+    user.certificates = read_user_certificate(user_id, session)
+    user.interests = read_user_interests(user_id, session)
+
     return user
 
 
