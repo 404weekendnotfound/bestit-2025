@@ -20,6 +20,7 @@ interface RegisterData {
         company: string;
         start_date: string;
         end_date: string;
+        
     }>;
     education: string;
     skills: string;

@@ -18,16 +18,32 @@ const Step2= ({ onNext, formData, setFormData }: StepProps) => {
     ];
     return (
         <div className="form-container">
-            <h3>Praca</h3>
+            <p className="form-title">Doświadczenie zawodowe</p>
             {formData.work_experience.map((item, index) => (
                 <div key={index} className="form-field">
-                    {item.position} - {item.company} ({item.start_date} - {item.end_date})
+              <div className="form-date">({item.start_date} - {item.end_date})</div>
+                    <div className="form-field-label">
+                        {item.position}
+                        </div>
+                     <div className="form-company">  
+                        <i className="fas fa-location-dot"></i>
+                            {item.company} 
+                        
+                        </div> 
                 </div>
             ))}
-            <h3>Edukacja</h3>
+            <p className="form-title"> Wykształcenie</p>
             {formData.education.map((item, index) => (
                 <div key={index} className="form-field">
-                    {item.school} - {item.degree} ({item.start_date} - {item.end_date})
+                    <div className="form-date">({item.start_date} - {item.end_date})</div>
+                    <div className="form-company">
+                        <i className="fas fa-graduation-cap"></i>
+                        {item.degree} 
+                    </div>
+                    <div className="form-company">  
+                    <i className="fas fa-location-dot"></i>
+                        {item.school} 
+                    </div> 
                 </div>
             ))}
         </div>
