@@ -100,3 +100,8 @@ class UserWithDetails(UserRead):
     education: List[EducationRead] = []
     certificates: List[CertificateRead] = []
     interests: List[InterestRead] = []
+
+
+class UserUpdate(UserWithDetails):
+    """Schemat do aktualizacji użytkownika wraz ze wszystkimi szczegółami"""
+    pass
