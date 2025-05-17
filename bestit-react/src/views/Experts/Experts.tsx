@@ -9,7 +9,9 @@ const Experts: React.FC = () => {
 
     useEffect(() => {
         axiosInstance.get('/users').then((res) => {
-            setExperts(res.data);
+            if(res.data.length > 0) {
+                setExperts(res.data);
+            }
         });
     }, []);
 
