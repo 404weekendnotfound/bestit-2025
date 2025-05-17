@@ -10,7 +10,7 @@ import Experts from './views/Experts/Experts'
 import SingleExpert from './views/SingleExpert/SingleExpert'
 import Health from './views/Health/Health'
 import { useUserData } from './context/UserDataContext'
-
+import VideoRoom from './views/VideoRoom/VideoRoom'
 
 function App() {
   const { userData } = useUserData();
@@ -28,6 +28,7 @@ function App() {
         <Route path="/experts/:id" element={<SingleExpert />} />
         <Route path="/health" element={<Health />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/video/:id" element={<VideoRoom />} />
       </Routes>
     ) : (
       <Routes>
