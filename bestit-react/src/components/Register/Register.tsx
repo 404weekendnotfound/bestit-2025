@@ -12,6 +12,8 @@ interface RegisterData extends FormValues {
     additional_info: string;
     cv: string;
     photo: string;
+    certifications: string;
+    interests: string;
 }
 
 const Register = () => {
@@ -35,8 +37,9 @@ const Register = () => {
         fieldOfStudy: userData?.field_of_study || '',
         graduationYear: userData?.graduation_year || '',
         languages: userData?.languages || '',
-        certificates: userData?.certificates || '',
-        additionalInfo: userData?.additional_info || ''
+        certifications: userData?.certifications || '',
+        additionalInfo: userData?.additional_info || '',
+        interests: userData?.interests || ''
     });
 
     const handleStepSubmit = (data: Partial<RegisterData>) => {
