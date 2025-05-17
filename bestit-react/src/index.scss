@@ -18,7 +18,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   color: #121212;
-  background-color: #f4e8dc;
+  background-color: #FFFFFF;
 }
 
 h1,h2,h3,h4,h5,h6 {
@@ -29,7 +29,13 @@ p{
   margin: 0;
   line-height: 1.5;
 }
-
+#root{
+  width: 100%;
+}
+.box{
+  padding: 24px;
+  background-color: #EFF0F4;
+}
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -100,7 +106,7 @@ button {
   }
 }
 .button-field{
-  background-color: #4CAF50;
+  background-color: #204244;
   color: white;
   padding: 12px 24px;
   border: none;
@@ -117,7 +123,7 @@ button {
 }
 
 // Variables
-$primary-color: #4CAF50;
+$primary-color: #204244;
 $secondary-color: #6c757d;
 $error-color: #dc3545;
 $text-color: #333;
@@ -145,16 +151,6 @@ $transition: all 0.3s ease;
   padding: 0;
   box-sizing: border-box;
 }
-
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  line-height: 1.6;
-  color: $text-color;
-  background-color: #f5f5f5;
-  min-height: 100vh;
-  @include flex-center;
-}
-
 // Form Container
 .form-container {
   background: $white;

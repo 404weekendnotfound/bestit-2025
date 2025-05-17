@@ -19,6 +19,8 @@ export const UserDataProvider = ({ children }: { children: React.ReactNode }) =>
 
     useEffect(() => {
         const userData = localStorage.getItem("userData");
+        console.log("userData");
+        console.log(userData);
         if (userData) {
             setUserData(JSON.parse(userData));
         }

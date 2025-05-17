@@ -1,0 +1,85 @@
+.chat{
+    &-messages{
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        min-height: 500px;
+        padding: 12px 0;
+        .message{
+            width: 100%;
+            max-width: 85%;
+            padding: 12px;
+            background-color: #fff;
+            border-radius: 16px;
+            &-content{
+                font-size: 12px;
+                line-height: 1.5;
+            }
+            &.user{
+                margin-left: auto;
+                .message-content{
+                    background-color: #204244;
+                    color: #fff;
+                }
+            }
+            .markdown-content {
+                font-size: 12px;
+                line-height: 1.5;
+                
+                h1, h2, h3, h4, h5, h6 {
+                    margin: 1em 0 0.5em;
+                    font-weight: 600;
+                }
+                
+                p {
+                    margin: 0.5em 0;
+                }
+                
+                code {
+                    background-color: rgba(0, 0, 0, 0.05);
+                    padding: 0.2em 0.4em;
+                    border-radius: 3px;
+                    font-family: monospace;
+                }
+                
+                pre {
+                    background-color: rgba(0, 0, 0, 0.05);
+                    padding: 1em;
+                    border-radius: 4px;
+                    overflow-x: auto;
+                    
+                    code {
+                        background-color: transparent;
+                        padding: 0;
+                    }
+                }
+                
+                ul, ol {
+                    margin: 0.5em 0;
+                    padding-left: 1.5em;
+                }
+                
+                blockquote {
+                    border-left: 3px solid #ddd;
+                    margin: 0.5em 0;
+                    padding-left: 1em;
+                    color: #666;
+                }
+            }
+        }
+    }
+    &-input{
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        input{
+            width: 100%;
+            padding: 12px;
+            border-radius: 16px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            color: #333;
+            
+        }
+    }
+}
