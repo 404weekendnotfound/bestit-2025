@@ -1,10 +1,9 @@
-from datetime import date
 from typing import Optional, List
 from sqlmodel import SQLModel
 
 
 class UserCreate(SQLModel):
-    """Scheme to create user"""
+    """Scheme to create a user"""
     first_name: str
     last_name: str
     address: Optional[str] = None
