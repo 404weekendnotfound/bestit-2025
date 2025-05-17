@@ -10,6 +10,9 @@ services:
       - postgres
     ports:
       - 7562:8000
+    networks:
+      - bestit-network
+
 
   frontend:
     build:
@@ -32,6 +35,8 @@ services:
       - POSTGRES_DB=appdb
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - bestit-network
 
 
   adminer:
@@ -44,3 +49,8 @@ volumes:
   backend_data:
   front_data:
   postgres_data:
+
+
+networks:
+  bestit-network:
+    driver: bridge

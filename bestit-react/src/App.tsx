@@ -6,7 +6,8 @@ import Register from './components/Register/Register'
 import Dashboard from './views/Dashboard/Dashboard'
 import Profil from './views/Profil/Profil'
 import ChatView from './views/Chat/ChatView'
-import Experts from './views/Experts/Expers'
+import Experts from './views/Experts/Experts'
+import SingleExpert from './views/SingleExpert/SingleExpert'
 function Home() {
   return (
     <div>
@@ -38,6 +39,7 @@ function App() {
         <Route path="/profil" element={<Profil />} />
         <Route path="/chat" element={<ChatView />} />
         <Route path="/experts" element={<Experts />} />
+        <Route path="/experts/:id" element={<SingleExpert />} />
       </Routes>
     </BrowserRouter>
   )
