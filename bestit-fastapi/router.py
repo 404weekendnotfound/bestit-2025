@@ -9,6 +9,7 @@ from database import get_session
 users_router = APIRouter(prefix="/users", tags=["users"])
 
 
+
 @users_router.post("/", response_model=UserRead)
 def create_user(user: UserCreate, session: Session = Depends(get_session)):
     """Endpoint do tworzenia nowego użytkownika"""
@@ -23,6 +24,12 @@ def create_user(user: UserCreate, session: Session = Depends(get_session)):
     session.commit()
     session.refresh(db_user)
     return db_user
+
+@users_router.get("/", response_model=List[UserRead])
+def read_users(session: Session = Depends(get_session)):
+    """Endpoint do pobierania wszystkich użytkowników"""
+    users = session.exec(select(User)).all()
+    return users
 
 
 @users_router.get("/{user_id}", response_model=UserWithDetails)
