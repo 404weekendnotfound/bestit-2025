@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const API_URL = 'http://localhost:7562';
+export const API_URL = 'https://app.weekendnotfound.pl';
 
 const axiosInstance = axios.create({
     baseURL: API_URL
