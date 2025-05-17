@@ -3,6 +3,7 @@ import axiosInstance from "../../api/axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import './Experts.scss';
+import { API_URL } from "../../api/axios";
 
 interface Expert {
     id: number;
@@ -19,8 +20,10 @@ const Experts: React.FC = () => {
     useEffect(() => {
         const fetchExperts = async () => {
             try {
+                console.log('Using API URL:', API_URL);
                 setLoading(true);
                 const response = await axiosInstance.get('/users');
+                console.log('Response:', response.data);
                 // Ensure we're getting an array and it has the correct shape
                 if (Array.isArray(response.data)) {
                     setExperts(response.data);

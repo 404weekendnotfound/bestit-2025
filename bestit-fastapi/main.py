@@ -17,10 +17,22 @@ connections = {}
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "ws://localhost:5173", "https://app.weekendnotfound.pl", "ws://app.weekendnotfound.pl"],  # Frontend origins
+    allow_origins=[
+        "http://localhost:5173",
+        "https://localhost:5173",
+        "http://app.weekendnotfound.pl",
+        "https://app.weekendnotfound.pl",
+        "ws://localhost:5173",
+        "wss://localhost:5173",
+        "ws://app.weekendnotfound.pl",
+        "wss://app.weekendnotfound.pl",
+        "http://api.weekendnotfound.pl",
+        "https://api.weekendnotfound.pl",
+    ],
     allow_credentials=True,
-    allow_methods=["*"],  # Allow all methods
-    allow_headers=["*"],  # Allow all headers
+    allow_methods=["*"],
+    allow_headers=["*"],
+    expose_headers=["*"],
 )
 
 app.include_router(users_router)
