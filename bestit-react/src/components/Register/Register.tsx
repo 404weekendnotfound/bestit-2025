@@ -5,29 +5,15 @@ import ProgressBar from '../ProgressBar/ProgressBar';
 import Step2 from './Step2';
 import { useUserData } from '../../context/UserDataContext';
 import Step3 from './Step3';
-import Step4 from './Step4';
 import type { FormValues } from './types';
 
-interface RegisterData {
-    firstName: string;
-    lastName: string;
-    date: string;
-    phone: string;
-    email: string;
-    city: string;
-    work_experience: Array<{
-        position: string;
-        company: string;
-        start_date: string;
-        end_date: string;
-        
-    }>;
-    education: string;
+interface RegisterData extends FormValues {
     skills: string;
     additional_info: string;
     cv: string;
     photo: string;
-    
+    certifications: string;
+    interests: string;
 }
 
 const Register = () => {
@@ -41,15 +27,22 @@ const Register = () => {
         phone: userData?.phone || '',
         email: userData?.email || '',
         city: userData?.city || '',
-        education: userData?.education || '',
-        work_experience: userData?.work_experience || '',
+        education: userData?.education || [],
+        work_experience: userData?.work_experience || [],
         skills: userData?.skills || '',
         additional_info: userData?.additional_info || '',
         cv: userData?.cv || '',
         photo: userData?.photo || '',
+        degree: userData?.degree || '',
+        fieldOfStudy: userData?.field_of_study || '',
+        graduationYear: userData?.graduation_year || '',
+        languages: userData?.languages || '',
+        certifications: userData?.certifications || '',
+        additionalInfo: userData?.additional_info || '',
+        interests: userData?.interests || ''
     });
 
-    const handleStepSubmit = (data: FormValues) => {
+    const handleStepSubmit = (data: Partial<RegisterData>) => {
         setFormData(prev => ({
             ...prev,
             ...data
@@ -72,7 +65,7 @@ const Register = () => {
                 return;
             }
         }
-        if (currentStep < 4) {
+        if (currentStep < 3) {
             setCurrentStep(currentStep + 1);
         } else {
             // Tutaj możemy dodać logikę wysyłania formularza
@@ -100,10 +93,8 @@ const Register = () => {
                     />
                 );
             case 3:
-                return <CvUploader />;
-            case 4:
                 return (
-                    <Step4
+                    <Step3
                         formData={formData}
                         setFormData={setFormData}
                         onNext={handleStepSubmit}
@@ -120,7 +111,7 @@ const Register = () => {
             margin: '0 auto', 
             padding: '20px'
         }}>
-            <ProgressBar currentStep={currentStep} totalSteps={4} />
+            <ProgressBar currentStep={currentStep} totalSteps={3} />
             <h1 style={{ 
                 textAlign: 'center',
                 marginBottom: '30px',
@@ -134,7 +125,7 @@ const Register = () => {
                 textAlign: 'center',
                 color: '#666'
             }}>
-                Krok {currentStep} z 4
+                Krok {currentStep} z 3
             </div>
 
             {renderStep()}
@@ -159,7 +150,7 @@ const Register = () => {
                     onClick={handleNext} 
                     style={{flex: 1}}
                 >
-                    {currentStep === 4 ? 'Zakończ' : 'Dalej'}
+                    {currentStep === 3 ? 'Zakończ' : 'Dalej'}
                 </button>
             </div>
         </div>

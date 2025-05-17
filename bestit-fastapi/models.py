@@ -1,4 +1,3 @@
-from datetime import date
 from typing import Optional, List
 from sqlmodel import Field, SQLModel, Relationship
 
@@ -23,8 +22,8 @@ class Job(SQLModel, table=True):
     id: int = Field(default=None, primary_key=True)
     position: str = Field(index=True)
     company: str = Field(index=True)
-    start_date: date = Field(index=True)
-    end_date: Optional[date] = Field(default=None, index=True)
+    start_date: str = Field(index=True)
+    end_date: Optional[str] = Field(default=None, index=True)
     user_id: Optional[int] = Field(default=None, foreign_key="user.id")
 
     user: Optional[User] = Relationship(back_populates="job_experience")
@@ -35,7 +34,7 @@ class Education(SQLModel, table=True):
     degree: str = Field(index=True)
     field: str = Field(index=True)
     institution: str = Field(index=True)
-    graduation_date: date = Field(index=True)
+    graduation_date: str = Field(index=True)
     user_id: Optional[int] = Field(default=None, foreign_key="user.id")
 
     user: Optional[User] = Relationship(back_populates="education")
@@ -45,7 +44,7 @@ class Certificate(SQLModel, table=True):
     id: int = Field(default=None, primary_key=True)
     name: str = Field(index=True)
     issuer: str = Field(index=True)
-    issue_date: date = Field(index=True)
+    issue_date: str = Field(index=True)
     user_id: Optional[int] = Field(default=None, foreign_key="user.id")
 
     user: Optional[User] = Relationship(back_populates="certificates")
