@@ -17,12 +17,12 @@ const Experts: React.FC = () => {
         <Layout>
             <div className="box">
                 <h1>Experts</h1>
-                {experts.map((expert) => (
+                {experts.length > 0 ? experts.map((expert) => (
                     <Link to={`/experts/${expert.id}`} key={expert.id}>
                         <h2>{expert.first_name} {expert.last_name}</h2>
                         <p>{expert.email}</p>
                     </Link>
-                ))}
+                )) : <p>No experts found</p>}
             </div>
         </Layout>
     )
